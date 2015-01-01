@@ -24,4 +24,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'io.reactivex:rxandroid:0.23.0'
     compile 'com.mcxiaoke.volley:library:1.0.9'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.4.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.4'
 }
