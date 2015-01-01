@@ -27,7 +27,6 @@ proguard/
 
 # Android Studio Files
 .idea/
-.idea/
 app/build
 
 # Mac Files 
