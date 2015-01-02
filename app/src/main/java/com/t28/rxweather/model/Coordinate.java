@@ -10,18 +10,34 @@ import android.os.Looper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.t28.rxweather.Validatable;
 
 import rx.Observable;
 import rx.Subscriber;
 
 @JsonDeserialize(builder = Coordinate.Builder.class)
-public class Coordinate {
+public class Coordinate implements Validatable {
+    private static final double NO_LAT = Double.NaN;
+    private static final double NO_LON = Double.NaN;
+
     private final double mLat;
     private final double mLon;
 
     public Coordinate(Builder builder) {
         mLat = builder.mLat;
         mLon = builder.mLon;
+    }
+
+    @Override
+    public boolean isValid() {
+        if (Double.isNaN(mLat)) {
+            return false;
+        }
+
+        if (Double.isNaN(mLon)) {
+            return false;
+        }
+        return true;
     }
 
     public double getLat() {
@@ -62,8 +78,8 @@ public class Coordinate {
     @JsonPOJOBuilder(withPrefix = "set")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private double mLat;
-        private double mLon;
+        private double mLat = NO_LAT;
+        private double mLon = NO_LON;
 
         public Builder() {
         }
