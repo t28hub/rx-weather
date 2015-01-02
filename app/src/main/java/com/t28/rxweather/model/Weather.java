@@ -1,4 +1,4 @@
-package com.t28.rxweather;
+package com.t28.rxweather.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

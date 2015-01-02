@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.android.volley.VolleyError;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.t28.rxweather.model.Weather;
 
 import java.io.IOException;
 
