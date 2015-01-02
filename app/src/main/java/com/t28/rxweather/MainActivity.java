@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
 import com.t28.rxweather.model.Coordinate;
+import com.t28.rxweather.request.WeatherRequest;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 
 import rx.Subscriber;

@@ -1,4 +1,4 @@
-package com.t28.rxweather;
+package com.t28.rxweather.request;
 
 import android.net.Uri;
 import android.text.TextUtils;
