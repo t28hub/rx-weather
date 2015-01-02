@@ -30,6 +30,12 @@ public class WeatherRequest extends ListenableRequest<Weather> {
 
         try {
             final Weather weather = new WeatherParser().parse(response.data);
+            if (weather == null) {
+                return Response.error(new VolleyError("Parsed result is empty"));
+            }
+            if (!weather.isValid()) {
+                return Response.error(new VolleyError("Parsed result is invalid:" + weather));
+            }
             return Response.success(weather, null);
         } catch (ParseException e) {
             return Response.error(new VolleyError(e));
