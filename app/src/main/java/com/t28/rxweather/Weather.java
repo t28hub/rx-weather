@@ -1,6 +1,7 @@
 package com.t28.rxweather;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -106,11 +107,13 @@ public class Weather {
         public Builder() {
         }
 
+        @JsonProperty("id")
         public Builder setCityId(int cityId) {
             mCityId = cityId;
             return this;
         }
 
+        @JsonProperty("name")
         public Builder setCityName(String cityName) {
             mCityName = cityName;
             return this;
