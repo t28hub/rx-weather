@@ -1,12 +1,15 @@
 package com.t28.rxweather;
 
+import android.net.Uri;
+import android.text.TextUtils;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 
 public class WeatherRequest extends Request<Weather> {
     private WeatherRequest(Builder builder) {
-        super(Method.GET, null, null);
+        super(Method.GET, buildUrl(builder), null);
     }
 
     @Override
@@ -17,6 +20,28 @@ public class WeatherRequest extends Request<Weather> {
     @Override
     protected void deliverResponse(Weather response) {
 
+    }
+
+    private static String buildUrl(Builder builder) {
+        final Uri.Builder urlBuilder = new Uri.Builder();
+        urlBuilder.scheme("http").authority("api.openweathermap.org").path("/data/2.5/weather");
+        urlBuilder.appendQueryParameter("APPID", builder.mApiKey);
+
+        if (!TextUtils.isEmpty(builder.mCityName) && !TextUtils.isEmpty(builder.mCountryCode)) {
+            urlBuilder.appendQueryParameter("q", builder.mCityName + "," + builder.mCountryCode);
+        }
+
+        if (!TextUtils.isEmpty(builder.mCityId)) {
+            urlBuilder.appendQueryParameter("id", builder.mCityId);
+        }
+
+        if (!Double.isNaN(builder.mLat)) {
+            urlBuilder.appendQueryParameter("lat", String.valueOf(builder.mLat));
+        }
+        if (!Double.isNaN(builder.mLon)) {
+            urlBuilder.appendQueryParameter("lon", String.valueOf(builder.mLon));
+        }
+        return urlBuilder.build().toString();
     }
 
     public static class Builder {
