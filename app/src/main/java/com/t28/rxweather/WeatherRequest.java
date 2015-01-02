@@ -2,10 +2,14 @@ package com.t28.rxweather;
 
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.apache.http.HttpStatus;
 
 public class WeatherRequest extends Request<Weather> {
     private WeatherRequest(Builder builder) {
@@ -14,6 +18,9 @@ public class WeatherRequest extends Request<Weather> {
 
     @Override
     protected Response<Weather> parseNetworkResponse(NetworkResponse response) {
+        if (response.statusCode != HttpStatus.SC_OK) {
+            return Response.error(new VolleyError("Invalid status code:" + response.statusCode));
+        }
         return null;
     }
 
