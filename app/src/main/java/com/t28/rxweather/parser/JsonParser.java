@@ -19,15 +19,15 @@ public class JsonParser {
     }
 
     public <T> T parse(@Nullable byte[] body, @NonNull Class<T> valueType)
-            throws Parser.ParseException {
+            throws ParseException {
         if (body == null || body.length == 0) {
-            throw new Parser.ParseException("Empty body is an invalid JSON");
+            throw new ParseException("Empty body is an invalid JSON");
         }
 
         try {
             return mMapper.readValue(body, valueType);
         } catch (IOException e) {
-            throw new Parser.ParseException(e);
+            throw new ParseException(e);
         }
     }
 }

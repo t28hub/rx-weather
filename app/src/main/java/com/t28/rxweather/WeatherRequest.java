@@ -8,7 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.t28.rxweather.model.Weather;
-import com.t28.rxweather.parser.Parser;
+import com.t28.rxweather.parser.ParseException;
 import com.t28.rxweather.parser.WeatherParser;
 
 import org.apache.http.HttpStatus;
@@ -58,7 +58,7 @@ public class WeatherRequest extends Request<Weather> {
         try {
             final Weather weather = new WeatherParser().parse(response.data);
             return Response.success(weather, null);
-        } catch (Parser.ParseException e) {
+        } catch (ParseException e) {
             return Response.error(new VolleyError(e));
         }
     }
