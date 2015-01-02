@@ -10,11 +10,11 @@ import android.os.Looper;
 import rx.Observable;
 import rx.Subscriber;
 
-public class GeoCoordinate {
+public class Coordinate {
     private final double mLat;
     private final double mLon;
 
-    public GeoCoordinate(double lat, double lon) {
+    public Coordinate(double lat, double lon) {
         mLat = lat;
         mLon = lon;
     }
@@ -27,14 +27,14 @@ public class GeoCoordinate {
         return mLon;
     }
 
-    public static Observable<GeoCoordinate> find(final LocationManager manager) {
+    public static Observable<Coordinate> find(final LocationManager manager) {
         if (manager == null) {
             throw new IllegalArgumentException("'manager' must not be null");
         }
 
-        return Observable.create(new Observable.OnSubscribe<GeoCoordinate>() {
+        return Observable.create(new Observable.OnSubscribe<Coordinate>() {
             @Override
-            public void call(Subscriber<? super GeoCoordinate> subscriber) {
+            public void call(Subscriber<? super Coordinate> subscriber) {
                 final Criteria criteria = new Criteria();
                 criteria.setAccuracy(Criteria.ACCURACY_COARSE);
                 criteria.setPowerRequirement(Criteria.POWER_LOW);
@@ -55,9 +55,9 @@ public class GeoCoordinate {
     }
 
     private static class InnerLocationListener implements LocationListener {
-        private final Subscriber<? super GeoCoordinate> mSubscriber;
+        private final Subscriber<? super Coordinate> mSubscriber;
 
-        public InnerLocationListener(Subscriber<? super GeoCoordinate> subscriber) {
+        public InnerLocationListener(Subscriber<? super Coordinate> subscriber) {
             mSubscriber = subscriber;
         }
 
@@ -67,7 +67,7 @@ public class GeoCoordinate {
                 return;
             }
 
-            final GeoCoordinate coordinate = new GeoCoordinate(
+            final Coordinate coordinate = new Coordinate(
                     location.getLatitude(),
                     location.getLongitude()
             );

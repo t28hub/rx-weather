@@ -32,10 +32,10 @@ public class MainActivity extends ActionBarActivity {
                 .build());
 
         final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        GeoCoordinate.find(manager)
+        Coordinate.find(manager)
                 .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GeoCoordinate>() {
+                .subscribe(new Subscriber<Coordinate>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
                     }
 
                     @Override
-                    public void onNext(GeoCoordinate result) {
+                    public void onNext(Coordinate result) {
                         Log.d("TAG", "Thread:" + Thread.currentThread().getName());
                         Log.d("TAG", "onNext:" + result);
                     }
