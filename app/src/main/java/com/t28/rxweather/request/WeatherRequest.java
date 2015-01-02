@@ -53,8 +53,8 @@ public class WeatherRequest extends ListenableRequest<Weather> {
             urlBuilder.appendQueryParameter("q", builder.mCityName + "," + builder.mCountryCode);
         }
 
-        if (!TextUtils.isEmpty(builder.mCityId)) {
-            urlBuilder.appendQueryParameter("id", builder.mCityId);
+        if (builder.mCityId != Weather.NO_CITY_ID) {
+            urlBuilder.appendQueryParameter("id", String.valueOf(builder.mCityId));
         }
 
         if (!Double.isNaN(builder.mLat)) {
@@ -74,7 +74,7 @@ public class WeatherRequest extends ListenableRequest<Weather> {
 
         private String mCityName;
         private String mCountryCode;
-        private String mCityId;
+        private int mCityId = Weather.NO_CITY_ID;
         private double mLat = NO_LAT;
         private double mLon = NO_LON;
 
@@ -92,7 +92,7 @@ public class WeatherRequest extends ListenableRequest<Weather> {
             return this;
         }
 
-        public Builder setCityId(String id) {
+        public Builder setCityId(int id) {
             mCityId = id;
             return this;
         }

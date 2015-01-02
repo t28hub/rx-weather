@@ -18,7 +18,7 @@ import rx.Observable;
 
 @JsonDeserialize(builder = Weather.Builder.class)
 public class Weather implements Validatable {
-    private static final int NO_CITY_ID = -1;
+    public static final int NO_CITY_ID = -1;
 
     private final int mCityId;
     private final String mCityName;
