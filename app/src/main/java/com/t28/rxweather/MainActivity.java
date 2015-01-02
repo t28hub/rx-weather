@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.RequestQueue;
+
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -23,6 +25,11 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        final RequestQueue queue = RequestQueueRetriever.retrieve(this);
+        queue.add(new WeatherRequest.Builder("")
+                .setCityId("2172797")
+                .build());
 
         final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         GeoCoordinate.find(manager)
