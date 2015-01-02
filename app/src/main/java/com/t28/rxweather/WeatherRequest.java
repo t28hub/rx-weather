@@ -38,6 +38,7 @@ public class WeatherRequest extends Request<Weather> {
     @Override
     protected void deliverResponse(Weather response) {
         Log.d("TAG", "weather:" + response.getCityName());
+        Log.d("TAG", "weather:" + response.getAttribute().getTemperature());
     }
 
     private static String buildUrl(Builder builder) {

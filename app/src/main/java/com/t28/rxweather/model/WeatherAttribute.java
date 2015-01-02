@@ -1,5 +1,11 @@
 package com.t28.rxweather.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = WeatherAttribute.Builder.class)
 public class WeatherAttribute {
     private final double mTemperature;
     private final double mMinTemperature;
@@ -37,6 +43,8 @@ public class WeatherAttribute {
         return mPressure;
     }
 
+    @JsonPOJOBuilder(withPrefix = "set")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private double mTemperature;
         private double mMinTemperature;
@@ -48,14 +56,17 @@ public class WeatherAttribute {
         public Builder() {
         }
 
+        @JsonProperty("temp")
         public void setTemperature(double temperature) {
             mTemperature = temperature;
         }
 
+        @JsonProperty("temp_min")
         public void setMinTemperature(double temperature) {
             mMinTemperature = temperature;
         }
 
+        @JsonProperty("temp_max")
         public void setMaxTemperature(double temperature) {
             mMaxTemperature = temperature;
         }
