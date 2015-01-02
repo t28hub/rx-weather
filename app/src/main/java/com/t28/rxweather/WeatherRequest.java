@@ -23,13 +23,16 @@ public class WeatherRequest extends Request<Weather> {
         private static final double NO_LAT = Double.NaN;
         private static final double NO_LON = Double.NaN;
 
+        private final String mApiKey;
+
         private String mCityName;
         private String mCountryCode;
         private String mCityId;
         private double mLat = NO_LAT;
         private double mLon = NO_LON;
 
-        public Builder() {
+        public Builder(String apiKey) {
+            mApiKey = apiKey;
         }
 
         public Builder setCityName(String name) {
