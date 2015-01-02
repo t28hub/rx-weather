@@ -1,6 +1,7 @@
 package com.t28.rxweather;
 
 import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -9,11 +10,11 @@ import android.os.Looper;
 import rx.Observable;
 import rx.Subscriber;
 
-public class Location {
+public class GeoCoordinate {
     private final double mLat;
     private final double mLon;
 
-    public Location(double lat, double lon) {
+    public GeoCoordinate(double lat, double lon) {
         mLat = lat;
         mLon = lon;
     }
@@ -26,14 +27,14 @@ public class Location {
         return mLon;
     }
 
-    public static Observable<Location> find(final LocationManager manager) {
+    public static Observable<GeoCoordinate> find(final LocationManager manager) {
         if (manager == null) {
             throw new IllegalArgumentException("'manager' must not be null");
         }
 
-        return Observable.create(new Observable.OnSubscribe<Location>() {
+        return Observable.create(new Observable.OnSubscribe<GeoCoordinate>() {
             @Override
-            public void call(Subscriber<? super Location> subscriber) {
+            public void call(Subscriber<? super GeoCoordinate> subscriber) {
                 final Criteria criteria = new Criteria();
                 criteria.setAccuracy(Criteria.ACCURACY_COARSE);
                 criteria.setPowerRequirement(Criteria.POWER_LOW);
@@ -54,23 +55,23 @@ public class Location {
     }
 
     private static class InnerLocationListener implements LocationListener {
-        private final Subscriber<? super Location> mSubscriber;
+        private final Subscriber<? super GeoCoordinate> mSubscriber;
 
-        public InnerLocationListener(Subscriber<? super Location> subscriber) {
+        public InnerLocationListener(Subscriber<? super GeoCoordinate> subscriber) {
             mSubscriber = subscriber;
         }
 
         @Override
-        public void onLocationChanged(android.location.Location location) {
+        public void onLocationChanged(Location location) {
             if (mSubscriber.isUnsubscribed()) {
                 return;
             }
 
-            final Location result = new Location(
+            final GeoCoordinate coordinate = new GeoCoordinate(
                     location.getLatitude(),
                     location.getLongitude()
             );
-            mSubscriber.onNext(result);
+            mSubscriber.onNext(coordinate);
             mSubscriber.onCompleted();
         }
 
