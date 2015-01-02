@@ -1,10 +1,16 @@
 package com.t28.rxweather;
 
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -14,6 +20,32 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Location.find(manager)
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Location>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable cause) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onError:" + cause);
+                    }
+
+                    @Override
+                    public void onNext(Location result) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onNext:" + result);
+                    }
+                });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
