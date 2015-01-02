@@ -10,8 +10,10 @@ import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
 import com.t28.rxweather.model.Coordinate;
+import com.t28.rxweather.model.Weather;
 import com.t28.rxweather.request.WeatherRequest;
 import com.t28.rxweather.volley.RequestQueueRetriever;
+import com.t28.rxweather.volley.RxSupport;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,9 +32,26 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
 
         final RequestQueue queue = RequestQueueRetriever.retrieve(this);
-        queue.add(new WeatherRequest.Builder("")
-                .setCityId("2172797")
-                .build());
+        final RxSupport support = new RxSupport(queue);
+        Weather.findByCityName(support, "Tokyo")
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+                .subscribe(new Subscriber<Weather>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable cause) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onError:" + cause);
+                    }
+
+                    @Override
+                    public void onNext(Weather result) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onNext:" + result);
+                    }
+                });
 
         final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Coordinate.find(manager)
