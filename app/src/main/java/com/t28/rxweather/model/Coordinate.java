@@ -14,9 +14,9 @@ public class Coordinate {
     private final double mLat;
     private final double mLon;
 
-    public Coordinate(double lat, double lon) {
-        mLat = lat;
-        mLon = lon;
+    public Coordinate(Builder builder) {
+        mLat = builder.mLat;
+        mLon = builder.mLon;
     }
 
     public double getLat() {
@@ -54,6 +54,28 @@ public class Coordinate {
         });
     }
 
+    public static class Builder {
+        private double mLat;
+        private double mLon;
+
+        public Builder() {
+        }
+
+        public Builder setLat(double lat) {
+            mLat = lat;
+            return this;
+        }
+
+        public Builder setLon(double lon) {
+            mLon = lon;
+            return this;
+        }
+
+        public Coordinate build() {
+            return new Coordinate(this);
+        }
+    }
+
     private static class InnerLocationListener implements LocationListener {
         private final Subscriber<? super Coordinate> mSubscriber;
 
@@ -67,10 +89,10 @@ public class Coordinate {
                 return;
             }
 
-            final Coordinate coordinate = new Coordinate(
-                    location.getLatitude(),
-                    location.getLongitude()
-            );
+            final Coordinate coordinate = new Builder()
+                    .setLat(location.getLatitude())
+                    .setLon(location.getLongitude())
+                    .build();
             mSubscriber.onNext(coordinate);
             mSubscriber.onCompleted();
         }
