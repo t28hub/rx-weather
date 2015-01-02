@@ -15,7 +15,7 @@ public class Weather {
     private final long mSunsetTime;
 
     private final Coordinate mCoordinate;
-    private final WeatherAttribute mAttribute;
+    private final MainAttribute mAttribute;
 
     private Weather(Builder builder) {
         mCityId = builder.mCityId;
@@ -53,7 +53,7 @@ public class Weather {
         return mCoordinate;
     }
 
-    public WeatherAttribute getAttribute() {
+    public MainAttribute getAttribute() {
         return mAttribute;
     }
 
@@ -68,7 +68,7 @@ public class Weather {
         private long mSunsetTime;
 
         private Coordinate mCoordinate;
-        private WeatherAttribute mAttribute;
+        private MainAttribute mAttribute;
 
         public Builder() {
         }
@@ -107,7 +107,7 @@ public class Weather {
         }
 
         @JsonProperty("main")
-        public Builder setAttribute(WeatherAttribute attribute) {
+        public Builder setAttribute(MainAttribute attribute) {
             mAttribute = attribute;
             return this;
         }

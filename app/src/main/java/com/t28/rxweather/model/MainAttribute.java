@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-@JsonDeserialize(builder = WeatherAttribute.Builder.class)
-public class WeatherAttribute {
+@JsonDeserialize(builder = MainAttribute.Builder.class)
+public class MainAttribute {
     private final double mTemperature;
     private final double mMinTemperature;
     private final double mMaxTemperature;
@@ -14,7 +14,7 @@ public class WeatherAttribute {
     private final int mHumidity;
     private final int mPressure;
 
-    private WeatherAttribute(Builder builder) {
+    private MainAttribute(Builder builder) {
         mTemperature = builder.mTemperature;
         mMinTemperature = builder.mMinTemperature;
         mMaxTemperature = builder.mMaxTemperature;
@@ -79,8 +79,8 @@ public class WeatherAttribute {
             mPressure = pressure;
         }
 
-        public WeatherAttribute build() {
-            return new WeatherAttribute(this);
+        public MainAttribute build() {
+            return new MainAttribute(this);
         }
     }
 }
