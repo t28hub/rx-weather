@@ -1,5 +1,5 @@
 package com.t28.rxweather;
 
-public interface Validatable<T> {
+public interface Validatable {
     boolean isValid();
 }
