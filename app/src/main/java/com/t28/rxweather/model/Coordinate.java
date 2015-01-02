@@ -1,4 +1,4 @@
-package com.t28.rxweather;
+package com.t28.rxweather.model;
 
 import android.location.Criteria;
 import android.location.Location;

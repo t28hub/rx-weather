@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
+import com.t28.rxweather.model.Coordinate;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
