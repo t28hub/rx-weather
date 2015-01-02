@@ -1,4 +1,4 @@
-package com.t28.rxweather;
+package com.t28.rxweather.parser;
 
 import android.support.annotation.NonNull;
 
@@ -8,7 +8,7 @@ import com.t28.rxweather.model.Weather;
 
 import java.io.IOException;
 
-public class WeatherParser {
+public class WeatherParser implements Parser<Weather> {
     private final ObjectMapper mMapper;
 
     public WeatherParser() {
@@ -20,16 +20,14 @@ public class WeatherParser {
     }
 
     public Weather parse(byte[] body) throws ParseException {
+        if (body == null || body.length == 0) {
+            throw new ParseException("'body' is empty");
+        }
+
         try {
             return mMapper.readValue(body, Weather.class);
         } catch (IOException e) {
             throw new ParseException(e);
-        }
-    }
-
-    public static class ParseException extends VolleyError {
-        public ParseException(Throwable cause) {
-            super(cause);
         }
     }
 }
