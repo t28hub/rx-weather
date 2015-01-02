@@ -7,9 +7,14 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 import rx.Observable;
 import rx.Subscriber;
 
+@JsonDeserialize(builder = Coordinate.Builder.class)
 public class Coordinate {
     private final double mLat;
     private final double mLon;
@@ -54,6 +59,8 @@ public class Coordinate {
         });
     }
 
+    @JsonPOJOBuilder(withPrefix = "set")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private double mLat;
         private double mLon;
