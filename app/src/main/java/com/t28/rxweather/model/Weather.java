@@ -11,12 +11,10 @@ public class Weather {
     private final String mCityName;
     private final String mCountryCode;
 
-    private final double mLat;
-    private final double mLon;
-
     private final long mSunriseTime;
     private final long mSunsetTime;
 
+    private final Coordinate mCoordinate;
     private final WeatherAttribute mAttribute;
 
     private Weather(Builder builder) {
@@ -24,12 +22,10 @@ public class Weather {
         mCityName = builder.mCityName;
         mCountryCode = builder.mCountryCode;
 
-        mLat = builder.mLat;
-        mLon = builder.mLon;
-
         mSunriseTime = builder.mSunriseTime;
         mSunsetTime = builder.mSunsetTime;
 
+        mCoordinate = builder.mCoordinate;
         mAttribute = builder.mAttribute;
     }
 
@@ -45,20 +41,16 @@ public class Weather {
         return mCountryCode;
     }
 
-    public double getLat() {
-        return mLat;
-    }
-
-    public double getLon() {
-        return mLon;
-    }
-
     public long getSunriseTime() {
         return mSunriseTime;
     }
 
     public long getSunsetTime() {
         return mSunsetTime;
+    }
+
+    public Coordinate getCoordinate() {
+        return mCoordinate;
     }
 
     public WeatherAttribute getAttribute() {
@@ -72,12 +64,10 @@ public class Weather {
         private String mCityName;
         private String mCountryCode;
 
-        private double mLat;
-        private double mLon;
-
         private long mSunriseTime;
         private long mSunsetTime;
 
+        private Coordinate mCoordinate;
         private WeatherAttribute mAttribute;
 
         public Builder() {
@@ -100,16 +90,6 @@ public class Weather {
             return this;
         }
 
-        public Builder setLat(double lat) {
-            mLat = lat;
-            return this;
-        }
-
-        public Builder setLon(double lon) {
-            mLon = lon;
-            return this;
-        }
-
         public Builder setSunriseTime(long sunriseTime) {
             mSunriseTime = sunriseTime;
             return this;
@@ -117,6 +97,12 @@ public class Weather {
 
         public Builder setSunsetTime(long sunsetTime) {
             mSunsetTime = sunsetTime;
+            return this;
+        }
+
+        @JsonProperty("coord")
+        public Builder setCoordinate(Coordinate coordinate) {
+            mCoordinate = coordinate;
             return this;
         }
 
