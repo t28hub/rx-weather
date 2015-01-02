@@ -20,7 +20,7 @@ public class WeatherParser {
 
     public Weather parse(byte[] body) throws ParseException {
         try {
-            mMapper.readValue(body, Weather.class);
+            return mMapper.readValue(body, Weather.class);
         } catch (IOException e) {
             throw new ParseException(e);
         }
