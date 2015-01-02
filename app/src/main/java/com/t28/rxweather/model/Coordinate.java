@@ -10,7 +10,6 @@ import android.os.Looper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.t28.rxweather.Validatable;
 
 import rx.Observable;
 import rx.Subscriber;

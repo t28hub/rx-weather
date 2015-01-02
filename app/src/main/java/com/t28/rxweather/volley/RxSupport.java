@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.RequestFuture;
-import com.t28.rxweather.Validatable;
+import com.t28.rxweather.model.Validatable;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;

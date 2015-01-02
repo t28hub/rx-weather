@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.t28.rxweather.Validatable;
 
 @JsonDeserialize(builder = MainAttribute.Builder.class)
 public class MainAttribute implements Validatable {
