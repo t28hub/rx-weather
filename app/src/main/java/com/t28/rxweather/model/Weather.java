@@ -17,11 +17,7 @@ public class Weather {
     private final long mSunriseTime;
     private final long mSunsetTime;
 
-    private final double mTemperature;
-    private final double mMinTemperature;
-    private final double mMaxTemperature;
-
-    private final int mHumidity;
+    private final WeatherAttribute mAttribute;
 
     private Weather(Builder builder) {
         mCityId = builder.mCityId;
@@ -34,11 +30,7 @@ public class Weather {
         mSunriseTime = builder.mSunriseTime;
         mSunsetTime = builder.mSunsetTime;
 
-        mTemperature = builder.mTemperature;
-        mMinTemperature = builder.mMinTemperature;
-        mMaxTemperature = builder.mMaxTemperature;
-
-        mHumidity = builder.mHumidity;
+        mAttribute = builder.mAttribute;
     }
 
     public int getCityId() {
@@ -69,20 +61,8 @@ public class Weather {
         return mSunsetTime;
     }
 
-    public double getTemperature() {
-        return mTemperature;
-    }
-
-    public double getMinTemperature() {
-        return mMinTemperature;
-    }
-
-    public double getMaxTemperature() {
-        return mMaxTemperature;
-    }
-
-    public int getHumidity() {
-        return mHumidity;
+    public WeatherAttribute getAttribute() {
+        return mAttribute;
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
@@ -98,11 +78,7 @@ public class Weather {
         private long mSunriseTime;
         private long mSunsetTime;
 
-        private double mTemperature;
-        private double mMinTemperature;
-        private double mMaxTemperature;
-
-        private int mHumidity;
+        private WeatherAttribute mAttribute;
 
         public Builder() {
         }
@@ -144,23 +120,9 @@ public class Weather {
             return this;
         }
 
-        public Builder setTemperature(double temperature) {
-            mTemperature = temperature;
-            return this;
-        }
-
-        public Builder setMinTemperature(double minTemperature) {
-            mMinTemperature = minTemperature;
-            return this;
-        }
-
-        public Builder setMaxTemperature(double maxTemperature) {
-            mMaxTemperature = maxTemperature;
-            return this;
-        }
-
-        public Builder setHumidity(int humidity) {
-            mHumidity = humidity;
+        @JsonProperty("main")
+        public Builder setAttribute(WeatherAttribute attribute) {
+            mAttribute = attribute;
             return this;
         }
 
