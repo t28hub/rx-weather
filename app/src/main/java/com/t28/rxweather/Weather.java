@@ -1,5 +1,10 @@
 package com.t28.rxweather;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = Weather.Builder.class)
 public class Weather {
     private final int mCityId;
     private final String mCityName;
@@ -79,6 +84,8 @@ public class Weather {
         return mHumidity;
     }
 
+    @JsonPOJOBuilder(withPrefix = "set")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private int mCityId;
         private String mCityName;

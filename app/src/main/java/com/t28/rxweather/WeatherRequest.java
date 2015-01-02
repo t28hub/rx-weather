@@ -21,7 +21,17 @@ public class WeatherRequest extends Request<Weather> {
         if (response.statusCode != HttpStatus.SC_OK) {
             return Response.error(new VolleyError("Invalid status code:" + response.statusCode));
         }
-        return null;
+
+        if (response.data == null || response.data.length == 0) {
+            return Response.error(new VolleyError("Empty response body"));
+        }
+
+        try {
+            final Weather weather = new WeatherParser().parse(response.data);
+            return Response.success(weather, null);
+        } catch (WeatherParser.ParseException e) {
+            return Response.error(e);
+        }
     }
 
     @Override
