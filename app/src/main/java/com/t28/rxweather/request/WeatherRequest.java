@@ -24,10 +24,6 @@ public class WeatherRequest extends ListenableRequest<Weather> {
             return Response.error(new VolleyError("Invalid status code:" + response.statusCode));
         }
 
-        if (response.data == null || response.data.length == 0) {
-            return Response.error(new VolleyError("Empty response body"));
-        }
-
         final Weather weather;
         try {
             weather = new JsonParser().parse(response.data, Weather.class);
