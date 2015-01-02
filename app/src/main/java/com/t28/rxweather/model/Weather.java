@@ -2,8 +2,12 @@ package com.t28.rxweather.model;
 
 import android.text.TextUtils;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -31,6 +35,22 @@ public class Weather implements Validatable {
 
         mCoordinate = builder.mCoordinate;
         mAttribute = builder.mAttribute;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(this.getClass().getSimpleName());
+
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            mapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.PUBLIC_ONLY);
+            builder.append(mapper.writeValueAsString(this));
+        } catch (JsonProcessingException e) {
+            builder.append(super.toString());
+        }
+
+        return builder.toString();
     }
 
     @Override
