@@ -2,7 +2,6 @@ package com.t28.rxweather;
 
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -13,8 +12,35 @@ import com.t28.rxweather.model.Weather;
 import org.apache.http.HttpStatus;
 
 public class WeatherRequest extends Request<Weather> {
+    private Response.Listener<Weather> mListener;
+    private Response.ErrorListener mErrorListener;
+
     private WeatherRequest(Builder builder) {
         super(Method.GET, buildUrl(builder), null);
+    }
+
+    public void setListener(Response.Listener<Weather> listener) {
+        mListener = listener;
+    }
+
+    public void setErrorListener(Response.ErrorListener listener) {
+        mErrorListener = listener;
+    }
+
+    @Override
+    public void deliverError(VolleyError error) {
+        if (mErrorListener == null) {
+            return;
+        }
+        mErrorListener.onErrorResponse(error);
+    }
+
+    @Override
+    protected void deliverResponse(Weather response) {
+        if (mListener == null) {
+            return;
+        }
+        mListener.onResponse(response);
     }
 
     @Override
@@ -33,12 +59,6 @@ public class WeatherRequest extends Request<Weather> {
         } catch (WeatherParser.ParseException e) {
             return Response.error(e);
         }
-    }
-
-    @Override
-    protected void deliverResponse(Weather response) {
-        Log.d("TAG", "weather:" + response.getCityName());
-        Log.d("TAG", "weather:" + response.getAttribute().getTemperature());
     }
 
     private static String buildUrl(Builder builder) {
