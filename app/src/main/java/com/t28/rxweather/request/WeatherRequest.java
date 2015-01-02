@@ -7,8 +7,8 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.t28.rxweather.model.Weather;
+import com.t28.rxweather.parser.JsonParser;
 import com.t28.rxweather.parser.ParseException;
-import com.t28.rxweather.parser.WeatherParser;
 import com.t28.rxweather.volley.ListenableRequest;
 
 import org.apache.http.HttpStatus;
@@ -28,18 +28,20 @@ public class WeatherRequest extends ListenableRequest<Weather> {
             return Response.error(new VolleyError("Empty response body"));
         }
 
+        final Weather weather;
         try {
-            final Weather weather = new WeatherParser().parse(response.data);
-            if (weather == null) {
-                return Response.error(new VolleyError("Parsed result is empty"));
-            }
-            if (!weather.isValid()) {
-                return Response.error(new VolleyError("Parsed result is invalid:" + weather));
-            }
-            return Response.success(weather, null);
+            weather = new JsonParser().parse(response.data, Weather.class);
         } catch (ParseException e) {
             return Response.error(new VolleyError(e));
         }
+
+        if (weather == null) {
+            return Response.error(new VolleyError("Parsed result is empty"));
+        }
+        if (!weather.isValid()) {
+            return Response.error(new VolleyError("Parsed result is invalid:" + weather));
+        }
+        return Response.success(weather, null);
     }
 
     private static String buildUrl(Builder builder) {
