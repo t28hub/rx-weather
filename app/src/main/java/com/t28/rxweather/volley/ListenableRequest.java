@@ -1,13 +1,9 @@
 package com.t28.rxweather.volley;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.t28.rxweather.Validatable;
-import com.t28.rxweather.parser.Parser;
-
-import org.apache.http.HttpStatus;
 
 public abstract class ListenableRequest<T extends Validatable> extends Request<T> {
     private Response.Listener<T> mListener;
@@ -40,14 +36,4 @@ public abstract class ListenableRequest<T extends Validatable> extends Request<T
         }
         mListener.onResponse(response);
     }
-
-    @Override
-    protected Response<T> parseNetworkResponse(NetworkResponse response) {
-        if (response.statusCode != HttpStatus.SC_OK) {
-
-        }
-        return null;
-    }
-
-    protected abstract Parser<T> newParser();
 }
