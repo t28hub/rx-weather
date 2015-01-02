@@ -2,6 +2,7 @@ package com.t28.rxweather.model;
 
 import android.text.TextUtils;
 
+import com.android.volley.RequestQueue;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.t28.rxweather.request.WeatherRequest;
+import com.t28.rxweather.volley.RxSupport;
+
+import rx.Observable;
 
 @JsonDeserialize(builder = Weather.Builder.class)
 public class Weather implements Validatable {
@@ -103,6 +108,28 @@ public class Weather implements Validatable {
 
     public MainAttribute getAttribute() {
         return mAttribute;
+    }
+
+    public static Observable<Weather> findByCityName(RxSupport support, String name) {
+        final WeatherRequest request = new WeatherRequest.Builder("")
+                .setCityName(name)
+                .build();
+        return support.createObservableRequest(request);
+    }
+
+    public static Observable<Weather> findByCityId(RxSupport support, int id) {
+        final WeatherRequest request = new WeatherRequest.Builder("")
+                .setCityId(id)
+                .build();
+        return support.createObservableRequest(request);
+    }
+
+    public static Observable<Weather> findByCoordinate(RxSupport support, Coordinate coordinate) {
+        final WeatherRequest request = new WeatherRequest.Builder("")
+                .setLat(coordinate.getLat())
+                .setLon(coordinate.getLon())
+                .build();
+        return support.createObservableRequest(request);
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
