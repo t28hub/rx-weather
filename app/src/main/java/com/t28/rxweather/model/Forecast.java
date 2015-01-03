@@ -33,7 +33,7 @@ public class Forecast implements Validatable {
 
     @Override
     public boolean isValid() {
-        return false;
+        return true;
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
