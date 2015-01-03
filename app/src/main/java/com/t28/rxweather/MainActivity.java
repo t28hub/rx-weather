@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
 import com.t28.rxweather.model.Coordinate;
+import com.t28.rxweather.model.Forecast;
 import com.t28.rxweather.model.Weather;
 import com.t28.rxweather.request.WeatherRequest;
 import com.t28.rxweather.volley.RequestQueueRetriever;
@@ -48,6 +49,26 @@ public class MainActivity extends ActionBarActivity {
 
                     @Override
                     public void onNext(Weather result) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onNext:" + result);
+                    }
+                });
+
+        Forecast.findByName(support, "Tokyo")
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+                .subscribe(new Subscriber<Forecast>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable cause) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onError:" + cause);
+                    }
+
+                    @Override
+                    public void onNext(Forecast result) {
                         Log.d("TAG", "Thread:" + Thread.currentThread().getName());
                         Log.d("TAG", "onNext:" + result);
                     }
