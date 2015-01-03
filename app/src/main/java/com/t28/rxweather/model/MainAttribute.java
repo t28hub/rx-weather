@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = MainAttribute.Builder.class)
-public class MainAttribute implements Validatable {
+public class MainAttribute extends Model {
     public static final float NO_TEMPERATURE = Float.NaN;
     public static final float NO_HUMIDITY = Float.NaN;
     public static final float NO_PRESSURE = Float.NaN;
@@ -40,6 +40,24 @@ public class MainAttribute implements Validatable {
         }
 
         if (Float.isNaN(mPressure)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        if (!Float.isNaN(mTemperature) ||
+                !Float.isNaN(mMinTemperature) ||
+                !Float.isNaN(mMaxTemperature)) {
+            return false;
+        }
+
+        if (!Float.isNaN(mHumidity)) {
+            return false;
+        }
+
+        if (!Float.isNaN(mPressure)) {
             return false;
         }
         return true;
