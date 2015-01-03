@@ -16,34 +16,34 @@ import rx.Subscriber;
 
 @JsonDeserialize(builder = Coordinate.Builder.class)
 public class Coordinate implements Validatable {
-    private static final double NO_LAT = Double.NaN;
-    private static final double NO_LON = Double.NaN;
+    public static final float NO_LAT = Float.NaN;
+    public static final float NO_LON = Float.NaN;
 
-    private final double mLat;
-    private final double mLon;
+    private final float mLat;
+    private final float mLon;
 
-    public Coordinate(Builder builder) {
+    private Coordinate(Builder builder) {
         mLat = builder.mLat;
         mLon = builder.mLon;
     }
 
     @Override
     public boolean isValid() {
-        if (Double.isNaN(mLat)) {
+        if (Float.isNaN(mLat)) {
             return false;
         }
 
-        if (Double.isNaN(mLon)) {
+        if (Float.isNaN(mLon)) {
             return false;
         }
         return true;
     }
 
-    public double getLat() {
+    public float getLat() {
         return mLat;
     }
 
-    public double getLon() {
+    public float getLon() {
         return mLon;
     }
 
@@ -77,18 +77,18 @@ public class Coordinate implements Validatable {
     @JsonPOJOBuilder(withPrefix = "set")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private double mLat = NO_LAT;
-        private double mLon = NO_LON;
+        private float mLat = NO_LAT;
+        private float mLon = NO_LON;
 
         public Builder() {
         }
 
-        public Builder setLat(double lat) {
+        public Builder setLat(float lat) {
             mLat = lat;
             return this;
         }
 
-        public Builder setLon(double lon) {
+        public Builder setLon(float lon) {
             mLon = lon;
             return this;
         }
@@ -112,8 +112,8 @@ public class Coordinate implements Validatable {
             }
 
             final Coordinate coordinate = new Builder()
-                    .setLat(location.getLatitude())
-                    .setLon(location.getLongitude())
+                    .setLat((float) location.getLatitude())
+                    .setLon((float) location.getLongitude())
                     .build();
             mSubscriber.onNext(coordinate);
             mSubscriber.onCompleted();
