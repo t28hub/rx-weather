@@ -17,7 +17,7 @@ import java.util.Map;
 import rx.Observable;
 
 @JsonDeserialize(builder = Weather.Builder.class)
-public class Weather implements Validatable {
+public class Weather extends Model {
     public static final long NO_TIME = -1;
 
     private final long mSunriseTime;
@@ -47,6 +47,22 @@ public class Weather implements Validatable {
         }
 
         if (mAttribute == null || !mAttribute.isValid()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        if (mSunriseTime != NO_TIME || mSunsetTime != NO_TIME) {
+            return false;
+        }
+
+        if (mAttribute != null && !mAttribute.isEmpty()) {
+            return false;
+        }
+
+        if (mCity != null && !mCity.isEmpty()) {
             return false;
         }
         return true;
