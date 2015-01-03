@@ -141,6 +141,15 @@ public class Weather implements Validatable {
     @JsonPOJOBuilder(withPrefix = "set")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
+        private static final String PROPERTY_CITY_ID = "id";
+        private static final String PROPERTY_CITY_NAME = "name";
+        private static final String PROPERTY_COUNTRY_CODE = "country";
+        private static final String PROPERTY_COORDINATE = "coord";
+        private static final String PROPERTY_MAIN = "main";
+        private static final String PROPERTY_SUNRISE = "sunrise";
+        private static final String PROPERTY_SUNSET = "sunset";
+        private static final String PROPERTY_SYSTEM = "sys";
+
         private int mCityId = NO_CITY_ID;
         private String mCityName;
         private String mCountryCode;
@@ -154,33 +163,38 @@ public class Weather implements Validatable {
         public Builder() {
         }
 
-        @JsonProperty("id")
+        @JsonProperty(PROPERTY_CITY_ID)
         public Builder setCityId(int cityId) {
             mCityId = cityId;
             return this;
         }
 
-        @JsonProperty("name")
+        @JsonProperty(PROPERTY_CITY_NAME)
         public Builder setCityName(String cityName) {
             mCityName = cityName;
             return this;
         }
 
-        @JsonProperty("sys")
+        @JsonProperty(PROPERTY_SYSTEM)
         public Builder setSystem(Map<String, Object> systems) {
-            mCountryCode = CollectionUtils.getValue(systems, "country", "").toString();
-            mSunriseTime = Long.valueOf(CollectionUtils.getValue(systems, "sunrise", 0).toString());
-            mSunsetTime = Long.valueOf(CollectionUtils.getValue(systems, "sunset", 0).toString());
+            final Object country = CollectionUtils.getValue(systems, PROPERTY_COUNTRY_CODE, "");
+            mCountryCode = country.toString();
+
+            final Object sunrise = CollectionUtils.getValue(systems, PROPERTY_SUNRISE, 0);
+            mSunriseTime = Long.valueOf(sunrise.toString());
+
+            final Object sunset = CollectionUtils.getValue(systems, PROPERTY_SUNSET, 0);
+            mSunsetTime = Long.valueOf(sunset.toString());
             return this;
         }
 
-        @JsonProperty("coord")
+        @JsonProperty(PROPERTY_COORDINATE)
         public Builder setCoordinate(Coordinate coordinate) {
             mCoordinate = coordinate;
             return this;
         }
 
-        @JsonProperty("main")
+        @JsonProperty(PROPERTY_MAIN)
         public Builder setAttribute(MainAttribute attribute) {
             mAttribute = attribute;
             return this;
