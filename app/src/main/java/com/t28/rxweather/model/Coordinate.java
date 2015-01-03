@@ -15,7 +15,7 @@ import rx.Observable;
 import rx.Subscriber;
 
 @JsonDeserialize(builder = Coordinate.Builder.class)
-public class Coordinate implements Validatable {
+public class Coordinate extends Model {
     public static final float NO_LAT = Float.NaN;
     public static final float NO_LON = Float.NaN;
 
@@ -34,6 +34,18 @@ public class Coordinate implements Validatable {
         }
 
         if (Float.isNaN(mLon)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        if (!Float.isNaN(mLat)) {
+            return false;
+        }
+
+        if (!Float.isNaN(mLon)) {
             return false;
         }
         return true;
