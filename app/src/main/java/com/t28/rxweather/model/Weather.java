@@ -18,6 +18,8 @@ import rx.Observable;
 
 @JsonDeserialize(builder = Weather.Builder.class)
 public class Weather implements Validatable {
+    public static final long NO_TIME = -1;
+
     private final long mSunriseTime;
     private final long mSunsetTime;
 
@@ -120,8 +122,8 @@ public class Weather implements Validatable {
         private String mCityName;
         private String mCountryCode;
 
-        private long mSunriseTime;
-        private long mSunsetTime;
+        private long mSunriseTime = NO_TIME;
+        private long mSunsetTime = NO_TIME;
 
         private Coordinate mCoordinate;
         private MainAttribute mAttribute;
