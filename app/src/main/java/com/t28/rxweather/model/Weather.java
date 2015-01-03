@@ -1,7 +1,5 @@
 package com.t28.rxweather.model;
 
-import android.text.TextUtils;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,28 +18,24 @@ import rx.Observable;
 
 @JsonDeserialize(builder = Weather.Builder.class)
 public class Weather implements Validatable {
-    public static final int NO_CITY_ID = -1;
-
-    private final int mCityId;
-    private final String mCityName;
-    private final String mCountryCode;
-
     private final long mSunriseTime;
     private final long mSunsetTime;
 
-    private final Coordinate mCoordinate;
     private final MainAttribute mAttribute;
+    private final City mCity;
 
     private Weather(Builder builder) {
-        mCityId = builder.mCityId;
-        mCityName = builder.mCityName;
-        mCountryCode = builder.mCountryCode;
-
         mSunriseTime = builder.mSunriseTime;
         mSunsetTime = builder.mSunsetTime;
 
-        mCoordinate = builder.mCoordinate;
         mAttribute = builder.mAttribute;
+
+        mCity = new City.Builder()
+                .setId(builder.mCityId)
+                .setName(builder.mCityName)
+                .setCountryCode(builder.mCountryCode)
+                .setCoordinate(builder.mCoordinate)
+                .build();
     }
 
     @Override
@@ -62,19 +56,7 @@ public class Weather implements Validatable {
 
     @Override
     public boolean isValid() {
-        if (mCityId == NO_CITY_ID) {
-            return false;
-        }
-
-        if (TextUtils.isEmpty(mCityName) || TextUtils.isEmpty(mCountryCode)) {
-            return false;
-        }
-
         if (mSunriseTime <= 0 || mSunsetTime <= 0) {
-            return false;
-        }
-
-        if (mCoordinate == null || !mCoordinate.isValid()) {
             return false;
         }
 
@@ -82,18 +64,6 @@ public class Weather implements Validatable {
             return false;
         }
         return true;
-    }
-
-    public int getCityId() {
-        return mCityId;
-    }
-
-    public String getCityName() {
-        return mCityName;
-    }
-
-    public String getCountryCode() {
-        return mCountryCode;
     }
 
     public long getSunriseTime() {
@@ -104,8 +74,8 @@ public class Weather implements Validatable {
         return mSunsetTime;
     }
 
-    public Coordinate getCoordinate() {
-        return mCoordinate;
+    public City getCity() {
+        return mCity;
     }
 
     public MainAttribute getAttribute() {
@@ -146,7 +116,7 @@ public class Weather implements Validatable {
         private static final String PROPERTY_SUNSET = "sunset";
         private static final String PROPERTY_SYSTEM = "sys";
 
-        private int mCityId = NO_CITY_ID;
+        private int mCityId = City.NO_ID;
         private String mCityName;
         private String mCountryCode;
 

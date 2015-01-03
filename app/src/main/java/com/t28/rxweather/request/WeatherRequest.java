@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.t28.rxweather.model.City;
 import com.t28.rxweather.model.Weather;
 import com.t28.rxweather.parser.ParseException;
 import com.t28.rxweather.parser.WeatherParser;
@@ -53,7 +54,7 @@ public class WeatherRequest extends ListenableRequest<Weather> {
             }
         }
 
-        if (builder.mCityId != Weather.NO_CITY_ID) {
+        if (builder.mCityId != City.NO_ID) {
             urlBuilder.appendQueryParameter("id", String.valueOf(builder.mCityId));
         }
 
@@ -74,7 +75,7 @@ public class WeatherRequest extends ListenableRequest<Weather> {
 
         private String mCityName;
         private String mCountryCode;
-        private int mCityId = Weather.NO_CITY_ID;
+        private int mCityId = City.NO_ID;
         private double mLat = NO_LAT;
         private double mLon = NO_LON;
 
