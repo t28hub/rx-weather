@@ -41,6 +41,14 @@ public class Forecast implements Validatable {
         return true;
     }
 
+    public City getCity() {
+        return mCity;
+    }
+
+    public List<Weather> getWeathers() {
+        return new ArrayList<>(mWeathers);
+    }
+
     public static Observable<Forecast> findByName(RxSupport support, String name) {
         final ForecastRequest request = new ForecastRequest.Builder("")
                 .setCityName(name)
