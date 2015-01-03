@@ -7,16 +7,16 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = MainAttribute.Builder.class)
 public class MainAttribute implements Validatable {
-    private static final double NO_TEMPERATURE = Double.NaN;
-    private static final double NO_HUMIDITY = Double.NaN;
-    private static final double NO_PRESSURE = Double.NaN;
+    private static final float NO_TEMPERATURE = Float.NaN;
+    private static final float NO_HUMIDITY = Float.NaN;
+    private static final float NO_PRESSURE = Float.NaN;
 
-    private final double mTemperature;
-    private final double mMinTemperature;
-    private final double mMaxTemperature;
+    private final float mTemperature;
+    private final float mMinTemperature;
+    private final float mMaxTemperature;
 
-    private final double mHumidity;
-    private final double mPressure;
+    private final float mHumidity;
+    private final float mPressure;
 
     private MainAttribute(Builder builder) {
         mTemperature = builder.mTemperature;
@@ -29,17 +29,17 @@ public class MainAttribute implements Validatable {
 
     @Override
     public boolean isValid() {
-        if (Double.isNaN(mTemperature) ||
-                Double.isNaN(mMinTemperature) ||
-                Double.isNaN(mMaxTemperature)) {
+        if (Float.isNaN(mTemperature) ||
+                Float.isNaN(mMinTemperature) ||
+                Float.isNaN(mMaxTemperature)) {
             return false;
         }
 
-        if (Double.isNaN(mHumidity)) {
+        if (Float.isNaN(mHumidity)) {
             return false;
         }
 
-        if (Double.isNaN(mPressure)) {
+        if (Float.isNaN(mPressure)) {
             return false;
         }
         return true;
@@ -68,36 +68,36 @@ public class MainAttribute implements Validatable {
     @JsonPOJOBuilder(withPrefix = "set")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private double mTemperature = NO_TEMPERATURE;
-        private double mMinTemperature = NO_TEMPERATURE;
-        private double mMaxTemperature = NO_TEMPERATURE;
+        private float mTemperature = NO_TEMPERATURE;
+        private float mMinTemperature = NO_TEMPERATURE;
+        private float mMaxTemperature = NO_TEMPERATURE;
 
-        private double mHumidity = NO_HUMIDITY;
-        private double mPressure = NO_PRESSURE;
+        private float mHumidity = NO_HUMIDITY;
+        private float mPressure = NO_PRESSURE;
 
         public Builder() {
         }
 
         @JsonProperty("temp")
-        public void setTemperature(double temperature) {
+        public void setTemperature(float temperature) {
             mTemperature = temperature;
         }
 
         @JsonProperty("temp_min")
-        public void setMinTemperature(double temperature) {
+        public void setMinTemperature(float temperature) {
             mMinTemperature = temperature;
         }
 
         @JsonProperty("temp_max")
-        public void setMaxTemperature(double temperature) {
+        public void setMaxTemperature(float temperature) {
             mMaxTemperature = temperature;
         }
 
-        public void setHumidity(double humidity) {
+        public void setHumidity(float humidity) {
             mHumidity = humidity;
         }
 
-        public void setPressure(double pressure) {
+        public void setPressure(float pressure) {
             mPressure = pressure;
         }
 
