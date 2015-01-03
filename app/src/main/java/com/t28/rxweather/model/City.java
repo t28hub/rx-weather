@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = City.Builder.class)
-public class City implements Validatable {
+public class City extends Model {
     public static final int NO_ID = -1;
 
     private final int mId;
@@ -41,6 +41,26 @@ public class City implements Validatable {
             return false;
         }
         return mCoordinate.isValid();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        if (mId != NO_ID) {
+            return false;
+        }
+
+        if (!TextUtils.isEmpty(mName)) {
+            return false;
+        }
+
+        if (!TextUtils.isEmpty(mCountryCode)) {
+            return false;
+        }
+
+        if (mCoordinate != null) {
+            return false;
+        }
+        return true;
     }
 
     public int getId() {
