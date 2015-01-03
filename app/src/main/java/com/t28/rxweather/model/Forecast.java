@@ -1,5 +1,6 @@
 package com.t28.rxweather.model;
 
+import com.android.volley.Request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
@@ -9,13 +10,17 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.t28.rxweather.request.ForecastRequest;
 import com.t28.rxweather.util.CollectionUtils;
+import com.t28.rxweather.volley.RxSupport;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import rx.Observable;
 
 @JsonDeserialize(builder = Forecast.Builder.class)
 public class Forecast implements Validatable {
@@ -34,6 +39,13 @@ public class Forecast implements Validatable {
     @Override
     public boolean isValid() {
         return true;
+    }
+
+    public static Observable<Forecast> findByName(RxSupport support, String name) {
+        final ForecastRequest request = new ForecastRequest.Builder("")
+                .setCityName(name)
+                .build();
+        return support.createObservableRequest(request);
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
