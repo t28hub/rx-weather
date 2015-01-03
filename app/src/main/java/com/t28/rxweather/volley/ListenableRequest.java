@@ -3,9 +3,8 @@ package com.t28.rxweather.volley;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.t28.rxweather.model.Validatable;
 
-public abstract class ListenableRequest<T extends Validatable> extends Request<T> {
+public abstract class ListenableRequest<T> extends Request<T> {
     private Response.Listener<T> mListener;
     private Response.ErrorListener mErrorListener;
 

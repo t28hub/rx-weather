@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.RequestFuture;
-import com.t28.rxweather.model.Validatable;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +20,7 @@ public class RxSupport {
         mQueue = queue;
     }
 
-    public <T extends Validatable> Observable<T> createObservableRequest(final ListenableRequest<T> request) {
+    public <T> Observable<T> createObservableRequest(final ListenableRequest<T> request) {
         return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(Subscriber<? super T> subscriber) {

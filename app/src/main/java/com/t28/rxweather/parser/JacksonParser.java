@@ -3,9 +3,9 @@ package com.t28.rxweather.parser;
 import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.t28.rxweather.model.Validatable;
+import com.t28.rxweather.model.Model;
 
-public abstract class JacksonParser<T extends Validatable> implements Parser<T> {
+public abstract class JacksonParser<T extends Model> implements Parser<T> {
     private final ObjectMapper mMapper;
 
     public JacksonParser() {
