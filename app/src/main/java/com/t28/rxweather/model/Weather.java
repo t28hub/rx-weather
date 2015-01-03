@@ -1,18 +1,24 @@
 package com.t28.rxweather.model;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.t28.rxweather.request.WeatherRequest;
+import com.t28.rxweather.util.CollectionUtils;
 import com.t28.rxweather.volley.RxSupport;
+
+import java.util.Map;
 
 import rx.Observable;
 
@@ -160,18 +166,11 @@ public class Weather implements Validatable {
             return this;
         }
 
-        public Builder setCountryCode(String countryCode) {
-            mCountryCode = countryCode;
-            return this;
-        }
-
-        public Builder setSunriseTime(long sunriseTime) {
-            mSunriseTime = sunriseTime;
-            return this;
-        }
-
-        public Builder setSunsetTime(long sunsetTime) {
-            mSunsetTime = sunsetTime;
+        @JsonProperty("sys")
+        public Builder setSystem(Map<String, Object> systems) {
+            mCountryCode = CollectionUtils.getValue(systems, "country", "").toString();
+            mSunriseTime = Long.valueOf(CollectionUtils.getValue(systems, "sunrise", 0).toString());
+            mSunsetTime = Long.valueOf(CollectionUtils.getValue(systems, "sunset", 0).toString());
             return this;
         }
 
