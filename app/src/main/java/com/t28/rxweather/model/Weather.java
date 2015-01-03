@@ -41,22 +41,6 @@ public class Weather implements Validatable {
     }
 
     @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(this.getClass().getSimpleName());
-
-        try {
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.PUBLIC_ONLY);
-            builder.append(mapper.writeValueAsString(this));
-        } catch (JsonProcessingException e) {
-            builder.append(super.toString());
-        }
-
-        return builder.toString();
-    }
-
-    @Override
     public boolean isValid() {
         if (mSunriseTime <= 0 || mSunsetTime <= 0) {
             return false;
