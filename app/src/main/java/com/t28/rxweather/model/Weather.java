@@ -1,5 +1,6 @@
 package com.t28.rxweather.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +16,7 @@ import rx.Observable;
 
 @JsonDeserialize(builder = Weather.Builder.class)
 public class Weather extends Model {
-    public static final long NO_TIME = -1;
+    public static final long NO_TIME = 0;
 
     private final long mSunriseTime;
     private final long mSunsetTime;
@@ -46,7 +47,7 @@ public class Weather extends Model {
 
     @Override
     public boolean isValid() {
-        if (mSunriseTime <= 0 || mSunsetTime <= 0) {
+        if (mSunriseTime < NO_TIME || mSunsetTime < NO_TIME) {
             return false;
         }
 
