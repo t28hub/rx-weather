@@ -66,22 +66,26 @@ public class City implements Validatable {
         public Builder() {
         }
 
-        public void setId(int id) {
+        public Builder setId(int id) {
             mId = id;
+            return this;
         }
 
-        public void setName(String name) {
+        public Builder setName(String name) {
             mName = name;
+            return this;
         }
 
         @JsonProperty("country")
-        public void setCountryCode(String code) {
+        public Builder setCountryCode(String code) {
             mCountryCode = code;
+            return this;
         }
 
         @JsonProperty("coord")
-        public void setCoordinate(Coordinate coordinate) {
+        public Builder setCoordinate(Coordinate coordinate) {
             mCoordinate = coordinate;
+            return this;
         }
 
         public City build() {
