@@ -2,6 +2,7 @@ package com.t28.rxweather.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +25,8 @@ public class Weather extends Model {
     private final long mSunsetTime;
 
     private final MainAttribute mAttribute;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private final City mCity;
 
     private Weather(Builder builder) {
@@ -32,12 +35,17 @@ public class Weather extends Model {
 
         mAttribute = builder.mAttribute;
 
-        mCity = new City.Builder()
+        final City city = new City.Builder()
                 .setId(builder.mCityId)
                 .setName(builder.mCityName)
                 .setCountryCode(builder.mCountryCode)
                 .setCoordinate(builder.mCoordinate)
                 .build();
+        if (city.isEmpty()) {
+            mCity = null;
+        } else {
+            mCity = city;
+        }
     }
 
     @Override
@@ -50,9 +58,8 @@ public class Weather extends Model {
             return false;
         }
 
-        // Cityは空の場合が存在する
-        if (mCity.isEmpty()) {
-            return true;
+        if (mCity == null) {
+            return false;
         }
         return mCity.isValid();
     }
@@ -67,7 +74,7 @@ public class Weather extends Model {
             return false;
         }
 
-        if (mCity != null && !mCity.isEmpty()) {
+        if (mCity != null) {
             return false;
         }
         return true;
@@ -158,10 +165,10 @@ public class Weather extends Model {
             final Object country = CollectionUtils.getValue(systems, PROPERTY_COUNTRY_CODE, "");
             mCountryCode = country.toString();
 
-            final Object sunrise = CollectionUtils.getValue(systems, PROPERTY_SUNRISE, 0);
+            final Object sunrise = CollectionUtils.getValue(systems, PROPERTY_SUNRISE, NO_TIME);
             mSunriseTime = Long.valueOf(sunrise.toString());
 
-            final Object sunset = CollectionUtils.getValue(systems, PROPERTY_SUNSET, 0);
+            final Object sunset = CollectionUtils.getValue(systems, PROPERTY_SUNSET, NO_TIME);
             mSunsetTime = Long.valueOf(sunset.toString());
             return this;
         }
