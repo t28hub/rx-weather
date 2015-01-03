@@ -14,11 +14,13 @@ public class City implements Validatable {
     private final int mId;
     private final String mName;
     private final String mCountryCode;
+    private final Coordinate mCoordinate;
 
     private City(Builder builder) {
         mId = builder.mId;
         mName = builder.mName;
         mCountryCode = builder.mCountryCode;
+        mCoordinate = builder.mCoordinate;
     }
 
     @Override
@@ -34,7 +36,11 @@ public class City implements Validatable {
         if (TextUtils.isEmpty(mCountryCode)) {
             return false;
         }
-        return true;
+
+        if (mCoordinate == null) {
+            return false;
+        }
+        return mCoordinate.isValid();
     }
 
     public int getId() {
@@ -55,6 +61,7 @@ public class City implements Validatable {
         private int mId = NO_ID;
         private String mName;
         private String mCountryCode;
+        private Coordinate mCoordinate;
 
         public Builder() {
         }
@@ -70,6 +77,11 @@ public class City implements Validatable {
         @JsonProperty("country")
         public void setCountryCode(String code) {
             mCountryCode = code;
+        }
+
+        @JsonProperty("coord")
+        public void setCoordinate(Coordinate coordinate) {
+            mCoordinate = coordinate;
         }
 
         public City build() {
