@@ -171,6 +171,11 @@ public class Weather implements Validatable {
             return this;
         }
 
+        public Builder setCountryCode(String code) {
+            mCountryCode = code;
+            return this;
+        }
+
         @JsonProperty(PROPERTY_SYSTEM)
         public Builder setSystem(Map<String, Object> systems) {
             final Object country = CollectionUtils.getValue(systems, PROPERTY_COUNTRY_CODE, "");

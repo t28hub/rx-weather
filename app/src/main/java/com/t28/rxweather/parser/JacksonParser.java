@@ -2,28 +2,21 @@ package com.t28.rxweather.parser;
 
 import android.support.annotation.NonNull;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.t28.rxweather.model.Validatable;
 
-import java.io.IOException;
-
 public abstract class JacksonParser<T extends Validatable> implements Parser<T> {
-    private final JsonFactory mFactory;
+    private final ObjectMapper mMapper;
 
     public JacksonParser() {
-        this(new JsonFactory());
+        this(new ObjectMapper());
     }
 
-    public JacksonParser(@NonNull JsonFactory factory) {
-        mFactory = factory;
+    public JacksonParser(@NonNull ObjectMapper mapper) {
+        mMapper = mapper;
     }
 
-    protected JsonParser newParser(byte[] data) throws ParseException {
-        try {
-            return mFactory.createParser(data);
-        } catch (IOException e) {
-            throw new ParseException(e);
-        }
+    protected ObjectMapper getMapper() {
+        return mMapper;
     }
 }

@@ -7,8 +7,8 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.t28.rxweather.model.Weather;
-import com.t28.rxweather.parser.JsonParser;
 import com.t28.rxweather.parser.ParseException;
+import com.t28.rxweather.parser.WeatherParser;
 import com.t28.rxweather.volley.ListenableRequest;
 
 import org.apache.http.HttpStatus;
@@ -26,7 +26,7 @@ public class WeatherRequest extends ListenableRequest<Weather> {
 
         final Weather weather;
         try {
-            weather = new JsonParser().parse(response.data, Weather.class);
+            weather = new WeatherParser().parse(response.data);
         } catch (ParseException e) {
             return Response.error(new VolleyError(e));
         }
