@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = MainAttribute.Builder.class)
 public class MainAttribute implements Validatable {
-    private static final float NO_TEMPERATURE = Float.NaN;
-    private static final float NO_HUMIDITY = Float.NaN;
-    private static final float NO_PRESSURE = Float.NaN;
+    public static final float NO_TEMPERATURE = Float.NaN;
+    public static final float NO_HUMIDITY = Float.NaN;
+    public static final float NO_PRESSURE = Float.NaN;
 
     private final float mTemperature;
     private final float mMinTemperature;
