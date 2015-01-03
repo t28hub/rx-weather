@@ -2,6 +2,12 @@ package com.t28.rxweather.model;
 
 import android.text.TextUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = City.Builder.class)
 public class City implements Validatable {
     public static final int NO_ID = -1;
 
@@ -43,6 +49,8 @@ public class City implements Validatable {
         return mCountryCode;
     }
 
+    @JsonPOJOBuilder(withPrefix = "set")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private int mId = NO_ID;
         private String mName;
@@ -59,6 +67,7 @@ public class City implements Validatable {
             mName = name;
         }
 
+        @JsonProperty("country")
         public void setCountryCode(String code) {
             mCountryCode = code;
         }
