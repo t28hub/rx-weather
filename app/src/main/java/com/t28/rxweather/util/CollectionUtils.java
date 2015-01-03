@@ -1,5 +1,8 @@
 package com.t28.rxweather.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +15,19 @@ public class CollectionUtils {
             return true;
         }
         return list.isEmpty();
+    }
+
+    public static <T> List<T> newList(Iterator<T> iterator) {
+        if (iterator == null) {
+            return Collections.emptyList();
+        }
+
+        final List<T> list = new ArrayList<>();
+        while (iterator.hasNext()) {
+            final T element = iterator.next();
+            list.add(element);
+        }
+        return list;
     }
 
     public static <T1, T2> T2 getValue(Map<T1, T2> map, T1 key, T2 defaultValue) {
