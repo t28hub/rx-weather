@@ -45,8 +45,12 @@ public class WeatherRequest extends ListenableRequest<Weather> {
         urlBuilder.scheme("http").authority("api.openweathermap.org").path("/data/2.5/weather");
         urlBuilder.appendQueryParameter("APPID", builder.mApiKey);
 
-        if (!TextUtils.isEmpty(builder.mCityName) && !TextUtils.isEmpty(builder.mCountryCode)) {
-            urlBuilder.appendQueryParameter("q", builder.mCityName + "," + builder.mCountryCode);
+        if (!TextUtils.isEmpty(builder.mCityName)){
+            if (TextUtils.isEmpty(builder.mCountryCode)) {
+                urlBuilder.appendQueryParameter("q", builder.mCityName);
+            } else {
+                urlBuilder.appendQueryParameter("q", builder.mCityName + "," + builder.mCountryCode);
+            }
         }
 
         if (builder.mCityId != Weather.NO_CITY_ID) {
