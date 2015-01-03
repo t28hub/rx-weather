@@ -49,7 +49,12 @@ public class Weather extends Model {
         if (mAttribute == null || !mAttribute.isValid()) {
             return false;
         }
-        return true;
+
+        // Cityは空の場合が存在する
+        if (mCity.isEmpty()) {
+            return true;
+        }
+        return mCity.isValid();
     }
 
     @Override
