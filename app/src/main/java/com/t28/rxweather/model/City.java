@@ -43,7 +43,6 @@ public class City extends Model {
         return mCoordinate.isValid();
     }
 
-    @Override
     public boolean isEmpty() {
         if (mId != NO_ID) {
             return false;

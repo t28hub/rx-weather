@@ -20,6 +20,4 @@ public abstract class Model {
     }
 
     public abstract boolean isValid();
-
-    public abstract boolean isEmpty();
 }

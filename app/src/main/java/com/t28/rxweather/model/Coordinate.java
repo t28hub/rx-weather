@@ -39,18 +39,6 @@ public class Coordinate extends Model {
         return true;
     }
 
-    @Override
-    public boolean isEmpty() {
-        if (!Float.isNaN(mLat)) {
-            return false;
-        }
-
-        if (!Float.isNaN(mLon)) {
-            return false;
-        }
-        return true;
-    }
-
     public float getLat() {
         return mLat;
     }

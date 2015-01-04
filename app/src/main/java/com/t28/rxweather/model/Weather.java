@@ -1,6 +1,5 @@
 package com.t28.rxweather.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -59,22 +58,6 @@ public class Weather extends Model {
             return false;
         }
         return mCity.isValid();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        if (mSunriseTime != NO_TIME || mSunsetTime != NO_TIME) {
-            return false;
-        }
-
-        if (mAttribute != null && !mAttribute.isEmpty()) {
-            return false;
-        }
-
-        if (mCity != null) {
-            return false;
-        }
-        return true;
     }
 
     public long getSunriseTime() {

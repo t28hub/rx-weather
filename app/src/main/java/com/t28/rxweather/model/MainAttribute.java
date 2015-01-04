@@ -45,24 +45,6 @@ public class MainAttribute extends Model {
         return true;
     }
 
-    @Override
-    public boolean isEmpty() {
-        if (!Float.isNaN(mTemperature) ||
-                !Float.isNaN(mMinTemperature) ||
-                !Float.isNaN(mMaxTemperature)) {
-            return false;
-        }
-
-        if (!Float.isNaN(mHumidity)) {
-            return false;
-        }
-
-        if (!Float.isNaN(mPressure)) {
-            return false;
-        }
-        return true;
-    }
-
     public double getTemperature() {
         return mTemperature;
     }
