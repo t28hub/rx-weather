@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.t28.rxweather.model.Photos;
 import com.t28.rxweather.parser.ParseException;
 import com.t28.rxweather.parser.PhotosSearchParser;
+import com.t28.rxweather.util.BooleanUtils;
 import com.t28.rxweather.util.CollectionUtils;
 import com.t28.rxweather.volley.ListenableRequest;
 
@@ -85,6 +86,9 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
         if (!TextUtils.isEmpty(builder.mFormat)) {
             urlBuilder.appendQueryParameter(KEY_FORMAT, builder.mFormat);
         }
+
+        final String noJsonCallback = String.valueOf(BooleanUtils.toInt(builder.mNoJsonCallback));
+        urlBuilder.appendQueryParameter(KEY_NO_JSON_CALLBACK, noJsonCallback);
         return urlBuilder.build().toString();
     }
 
@@ -108,6 +112,7 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
         private int mRadius = NO_RADIUS;
         private String mRadiusUnits;
         private String mFormat;
+        private boolean mNoJsonCallback;
 
         public Builder(String apiKey) {
             mApiKey = apiKey;
@@ -145,6 +150,11 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
 
         public Builder setFormat(String format) {
             mFormat = format;
+            return this;
+        }
+
+        public Builder setNoJsonCallback(boolean enable) {
+            mNoJsonCallback = enable;
             return this;
         }
 
