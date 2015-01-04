@@ -26,6 +26,8 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
     private static final String KEY_LON = "lon";
     private static final String KEY_RADIUS = "radius";
     private static final String KEY_RADIUS_UNITS = "radius_units";
+    private static final String KEY_PAGE = "page";
+    private static final String KEY_PER_PAGE = "per_page";
     private static final String KEY_FORMAT = "format";
     private static final String KEY_NO_JSON_CALLBACK = "nojsoncallback";
 
@@ -87,6 +89,9 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
             urlBuilder.appendQueryParameter(KEY_RADIUS_UNITS, builder.mRadiusUnits);
         }
 
+        urlBuilder.appendQueryParameter(KEY_PAGE, String.valueOf(builder.mPage));
+        urlBuilder.appendQueryParameter(KEY_PER_PAGE, String.valueOf(builder.mPerPage));
+
         if (!TextUtils.isEmpty(builder.mFormat)) {
             urlBuilder.appendQueryParameter(KEY_FORMAT, builder.mFormat);
         }
@@ -107,16 +112,24 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
 
         public static final float NO_LAT = Float.NaN;
         public static final float NO_LON = Float.NaN;
-
         public static final int NO_RADIUS = -1;
+        public static final int DEFAULT_PAGE = 1;
+        public static final int DEFAULT_PER_PAGE = 25;
 
         private final String mApiKey;
+
         private List<String> mTags;
         private String mTagMode;
+
         private float mLat = NO_LAT;
         private float mLon = NO_LON;
+
         private int mRadius = NO_RADIUS;
         private String mRadiusUnits;
+
+        private int mPage = DEFAULT_PAGE;
+        private int mPerPage = DEFAULT_PER_PAGE;
+
         private String mFormat;
         private boolean mNoJsonCallback;
 
@@ -151,6 +164,16 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
 
         public Builder setRadiusUnit(String units) {
             mRadiusUnits = units;
+            return this;
+        }
+
+        public Builder setPage(int page) {
+            mPage = page;
+            return this;
+        }
+
+        public Builder setPerPage(int perPage) {
+            mPerPage = perPage;
             return this;
         }
 
