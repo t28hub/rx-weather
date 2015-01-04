@@ -22,7 +22,7 @@ public class WeatherService {
                 .setLat(coordinate.getLat())
                 .setLon(coordinate.getLon())
                 .build();
-        return new RxSupport(mQueue).newRequest(request);
+        return RxSupport.newRequest(mQueue, request);
     }
 
     public Observable<Forecast> findForecast(Coordinate coordinate) {
@@ -30,6 +30,6 @@ public class WeatherService {
                 .setLat(coordinate.getLat())
                 .setLon(coordinate.getLon())
                 .build();
-        return new RxSupport(mQueue).newRequest(request);
+        return RxSupport.newRequest(mQueue, request);
     }
 }

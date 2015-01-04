@@ -29,6 +29,6 @@ public class FlickerService {
                 .setFormat(PhotosSearchRequest.Builder.FORMAT_JSON)
                 .setNoJsonCallback(true)
                 .build();
-        return new RxSupport(mQueue).newRequest(request);
+        return RxSupport.newRequest(mQueue, request);
     }
 }
