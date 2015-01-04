@@ -14,7 +14,7 @@ import java.util.Map;
 import rx.Observable;
 
 @JsonDeserialize(builder = Weather.Builder.class)
-public class Weather extends Model {
+public class Weather implements Model {
     public static final long NO_TIME = 0;
 
     private final long mSunriseTime;

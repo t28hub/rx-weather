@@ -15,7 +15,7 @@ import java.util.List;
 import rx.Observable;
 
 @JsonDeserialize(builder = Forecast.Builder.class)
-public class Forecast extends Model {
+public class Forecast implements Model {
     private final City mCity;
     private final List<Weather> mWeathers;
 

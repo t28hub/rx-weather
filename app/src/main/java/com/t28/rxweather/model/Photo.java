@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = Photo.Builder.class)
-public class Photo extends Model {
+public class Photo implements Model {
     private static final String FORMAT_IMAGE_URL = "https://farm%d.staticflickr.com/%d/%d_%s_%s.jpg";
     private static final String FORMAT_PHOTO_URL = "https://www.flickr.com/photos/%s/%d";
 

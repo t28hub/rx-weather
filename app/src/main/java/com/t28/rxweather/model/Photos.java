@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 @JsonDeserialize(builder = Photos.Builder.class)
-public class Photos extends Model {
+public class Photos implements Model {
     private final int mPage;
     private final int mPageCount;
     private final int mPerPage;

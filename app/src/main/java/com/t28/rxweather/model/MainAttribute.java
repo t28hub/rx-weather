@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = MainAttribute.Builder.class)
-public class MainAttribute extends Model {
+public class MainAttribute implements Model {
     public static final float NO_TEMPERATURE = Float.NaN;
     public static final float NO_HUMIDITY = Float.NaN;
     public static final float NO_PRESSURE = Float.NaN;
