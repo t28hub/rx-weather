@@ -94,9 +94,9 @@ public class Weather implements Model {
     @JsonPOJOBuilder(withPrefix = "set")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private static final String PROPERTY_COUNTRY_CODE = "country";
-        private static final String PROPERTY_SUNRISE = "sunrise";
-        private static final String PROPERTY_SUNSET = "sunset";
+        private static final String KEY_COUNTRY_CODE = "country";
+        private static final String KEY_SUNRISE = "sunrise";
+        private static final String KEY_SUNSET = "sunset";
 
         private int mCityId = City.NO_ID;
         private String mCityName;
@@ -130,13 +130,13 @@ public class Weather implements Model {
 
         @JsonProperty("sys")
         public Builder setSystem(Map<String, Object> systems) {
-            final Object code = CollectionUtils.getValue(systems, PROPERTY_COUNTRY_CODE, City.NO_CODE);
+            final Object code = CollectionUtils.getValue(systems, KEY_COUNTRY_CODE, City.NO_CODE);
             mCountryCode = code.toString();
 
-            final Object sunrise = CollectionUtils.getValue(systems, PROPERTY_SUNRISE, NO_TIME);
+            final Object sunrise = CollectionUtils.getValue(systems, KEY_SUNRISE, NO_TIME);
             mSunriseTime = Long.valueOf(sunrise.toString());
 
-            final Object sunset = CollectionUtils.getValue(systems, PROPERTY_SUNSET, NO_TIME);
+            final Object sunset = CollectionUtils.getValue(systems, KEY_SUNSET, NO_TIME);
             mSunsetTime = Long.valueOf(sunset.toString());
             return this;
         }
