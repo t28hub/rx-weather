@@ -1,6 +1,8 @@
-package com.t28.rxweather.data.model;
+package com.t28.rxweather.data.service;
 
 import com.android.volley.RequestQueue;
+import com.t28.rxweather.data.model.Coordinate;
+import com.t28.rxweather.data.model.Photos;
 import com.t28.rxweather.request.PhotosSearchRequest;
 import com.t28.rxweather.volley.RxSupport;
 

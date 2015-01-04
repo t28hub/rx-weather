@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
 import com.t28.rxweather.data.model.Coordinate;
-import com.t28.rxweather.data.model.FlickerService;
+import com.t28.rxweather.data.service.FlickerService;
 import com.t28.rxweather.data.model.Forecast;
 import com.t28.rxweather.data.model.Photo;
 import com.t28.rxweather.data.model.PhotoSize;
