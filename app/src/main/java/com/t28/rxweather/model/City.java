@@ -8,8 +8,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = City.Builder.class)
-public class City extends Model {
+public class City implements Model {
     public static final int NO_ID = -1;
+    public static final String NO_CODE = "";
 
     private final int mId;
     private final String mName;
