@@ -1,5 +1,6 @@
 package com.t28.rxweather;
 
+import android.content.Intent;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -80,6 +81,8 @@ public class MainActivity extends ActionBarActivity {
                     public void onNext(Photo result) {
                         Log.d("TAG", "Thread:" + Thread.currentThread().getName());
                         Log.d("TAG", "onNext:" + result.toImageUri(PhotoSize.MEDIUM));
+                        final Intent intent = new Intent(Intent.ACTION_VIEW, result.toPhotoUri());
+                        MainActivity.this.startActivity(intent);
                     }
                 });
 

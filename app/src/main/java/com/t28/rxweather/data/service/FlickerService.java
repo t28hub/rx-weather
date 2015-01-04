@@ -11,8 +11,7 @@ import java.util.Arrays;
 import rx.Observable;
 
 public class FlickerService {
-    private static final int DEFAULT_RADIUS = 30;
-    private static final String DEFAULT_SEARCH_TAG = "Weather";
+    private static final int DEFAULT_RADIUS = 20;
 
     private final RequestQueue mQueue;
 
@@ -24,7 +23,7 @@ public class FlickerService {
         final PhotosSearchRequest request = new PhotosSearchRequest.Builder("")
                 .setLat(coordinate.getLat())
                 .setLon(coordinate.getLon())
-                .setTags(Arrays.asList(DEFAULT_SEARCH_TAG))
+                .setTags(Arrays.asList("weather", "climate"))
                 .setRadius(DEFAULT_RADIUS)
                 .setRadiusUnit(PhotosSearchRequest.Builder.RADIUS_UNITS_KM)
                 .setFormat(PhotosSearchRequest.Builder.FORMAT_JSON)
