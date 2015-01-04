@@ -47,6 +47,13 @@ public class Photos extends Model {
         if (mTotal < 0) {
             return false;
         }
+
+        for (Photo photo : mPhotos) {
+            if (photo.isValid()) {
+                continue;
+            }
+            return false;
+        }
         return true;
     }
 
