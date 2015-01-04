@@ -39,10 +39,11 @@ public class Forecast implements Model {
             final ObjectMapper mapper = new ObjectMapper();
             final String jsonString = mapper.writeValueAsString(this);
             builder.append(jsonString);
-            return builder.toString();
         } catch (JsonProcessingException e) {
-            return super.toString();
+            builder.append(hashCode());
         }
+
+        return builder.toString();
     }
 
     @Override
