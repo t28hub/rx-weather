@@ -33,10 +33,6 @@ public class Forecast implements Model {
         return true;
     }
 
-    public boolean isEmpty() {
-        return true;
-    }
-
     public City getCity() {
         return mCity;
     }
