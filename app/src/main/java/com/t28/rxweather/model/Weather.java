@@ -16,11 +16,9 @@ import rx.Observable;
 public class Weather implements Model {
     public static final long NO_TIME = 0;
 
+    private final MainAttribute mAttribute;
     private final long mSunriseTime;
     private final long mSunsetTime;
-
-    private final MainAttribute mAttribute;
-
     private final City mCity;
 
     private Weather(Builder builder) {
