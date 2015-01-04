@@ -30,6 +30,16 @@ public class Forecast implements Model {
 
     @Override
     public boolean isValid() {
+        if (mCity == null || !mCity.isValid()) {
+            return false;
+        }
+
+        for (Weather weather : mWeathers) {
+            if (weather.isValid()) {
+                continue;
+            }
+            return false;
+        }
         return true;
     }
 
