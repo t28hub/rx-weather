@@ -11,15 +11,15 @@ import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
 import com.t28.rxweather.data.model.Coordinate;
-import com.t28.rxweather.data.service.FlickerService;
 import com.t28.rxweather.data.model.Forecast;
 import com.t28.rxweather.data.model.Photo;
 import com.t28.rxweather.data.model.PhotoSize;
 import com.t28.rxweather.data.model.Photos;
 import com.t28.rxweather.data.model.Weather;
+import com.t28.rxweather.data.service.FlickerService;
 import com.t28.rxweather.data.service.LocationService;
+import com.t28.rxweather.data.service.WeatherService;
 import com.t28.rxweather.volley.RequestQueueRetriever;
-import com.t28.rxweather.volley.RxSupport;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -40,7 +40,6 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
 
         final RequestQueue queue = RequestQueueRetriever.retrieve(this);
-        final RxSupport support = new RxSupport(queue);
 
         final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         final LocationService location = new LocationService(manager);
@@ -86,12 +85,13 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
 
+        final WeatherService weather = new WeatherService(queue);
         location.find()
                 .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .flatMap(new Func1<Coordinate, Observable<Weather>>() {
                     @Override
                     public Observable<Weather> call(Coordinate coordinate) {
-                        return Weather.findByCoordinate(support, coordinate);
+                        return weather.findWeather(coordinate);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
                 .flatMap(new Func1<Coordinate, Observable<Forecast>>() {
                     @Override
                     public Observable<Forecast> call(Coordinate coordinate) {
-                        return Forecast.findByCoordinate(support, coordinate);
+                        return weather.findForecast(coordinate);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
