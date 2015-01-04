@@ -2,7 +2,6 @@ package com.t28.rxweather.request;
 
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -46,8 +45,6 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
 
         final Photos photos;
         try {
-            final String debug = new String(response.data);
-            Log.d("TAG", debug);
             photos = new PhotosSearchParser().parse(response.data);
         } catch (ParseException e) {
             e.printStackTrace();
