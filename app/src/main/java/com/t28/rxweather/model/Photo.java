@@ -51,6 +51,10 @@ public class Photo extends Model {
         if (TextUtils.isEmpty(mSecret)) {
             return false;
         }
+
+        if (TextUtils.isEmpty(mTitle)) {
+            return false;
+        }
         return true;
     }
 
