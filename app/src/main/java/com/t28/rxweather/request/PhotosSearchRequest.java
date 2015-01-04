@@ -5,9 +5,16 @@ import android.text.TextUtils;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.t28.rxweather.model.Photos;
+import com.t28.rxweather.model.Weather;
+import com.t28.rxweather.parser.ParseException;
+import com.t28.rxweather.parser.PhotosSearchParser;
+import com.t28.rxweather.parser.WeatherParser;
 import com.t28.rxweather.util.CollectionUtils;
 import com.t28.rxweather.volley.ListenableRequest;
+
+import org.apache.http.HttpStatus;
 
 import java.util.List;
 
@@ -33,7 +40,17 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
 
     @Override
     protected Response<Photos> parseNetworkResponse(NetworkResponse response) {
-        return null;
+        if (response.statusCode != HttpStatus.SC_OK) {
+            return Response.error(new VolleyError("Invalid status code:" + response.statusCode));
+        }
+
+        final Photos photos;
+        try {
+            photos = new PhotosSearchParser().parse(response.data);
+        } catch (ParseException e) {
+            return Response.error(new VolleyError(e));
+        }
+        return Response.success(photos, null);
     }
 
     private static String buildUrl(Builder builder) {
