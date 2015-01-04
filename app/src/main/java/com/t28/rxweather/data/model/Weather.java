@@ -4,13 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.t28.rxweather.request.WeatherRequest;
 import com.t28.rxweather.util.CollectionUtils;
-import com.t28.rxweather.volley.RxSupport;
 
 import java.util.Map;
-
-import rx.Observable;
 
 @JsonDeserialize(builder = Weather.Builder.class)
 public class Weather implements Model {
@@ -67,28 +63,6 @@ public class Weather implements Model {
 
     public MainAttribute getAttribute() {
         return mAttribute;
-    }
-
-    public static Observable<Weather> findByCityName(RxSupport support, String name) {
-        final WeatherRequest request = new WeatherRequest.Builder("")
-                .setCityName(name)
-                .build();
-        return support.createObservableRequest(request);
-    }
-
-    public static Observable<Weather> findByCityId(RxSupport support, int id) {
-        final WeatherRequest request = new WeatherRequest.Builder("")
-                .setCityId(id)
-                .build();
-        return support.createObservableRequest(request);
-    }
-
-    public static Observable<Weather> findByCoordinate(RxSupport support, Coordinate coordinate) {
-        final WeatherRequest request = new WeatherRequest.Builder("")
-                .setLat(coordinate.getLat())
-                .setLon(coordinate.getLon())
-                .build();
-        return support.createObservableRequest(request);
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
