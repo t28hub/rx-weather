@@ -16,6 +16,7 @@ import com.t28.rxweather.data.model.Photo;
 import com.t28.rxweather.data.model.PhotoSize;
 import com.t28.rxweather.data.model.Photos;
 import com.t28.rxweather.data.model.Weather;
+import com.t28.rxweather.data.service.LocationService;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 import com.t28.rxweather.volley.RxSupport;
 
@@ -41,11 +42,11 @@ public class MainActivity extends ActionBarActivity {
         final RxSupport support = new RxSupport(queue);
 
         final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        final Observable<Coordinate> coordinateObservable = Coordinate.find(manager)
-                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR));
+        final LocationService location = new LocationService(manager);
 
         final FlickerService flicker = new FlickerService(queue);
-        coordinateObservable
+        location.find()
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .flatMap(new Func1<Coordinate, Observable<Photos>>() {
                     @Override
                     public Observable<Photos> call(Coordinate coordinate) {
@@ -82,7 +83,8 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
 
-        coordinateObservable
+        location.find()
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .flatMap(new Func1<Coordinate, Observable<Weather>>() {
                     @Override
                     public Observable<Weather> call(Coordinate coordinate) {
@@ -108,7 +110,8 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
 
-        coordinateObservable
+        location.find()
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .flatMap(new Func1<Coordinate, Observable<Forecast>>() {
                     @Override
                     public Observable<Forecast> call(Coordinate coordinate) {
