@@ -14,7 +14,7 @@ public class Photo extends Model {
     private static final String FORMAT_IMAGE_URL = "https://farm%d.staticflickr.com/%d/%d_%s_%s.jpg";
     private static final String FORMAT_PHOTO_URL = "https://www.flickr.com/photos/%s/%d";
 
-    private final int mId;
+    private final long mId;
     private final int mFarmId;
     private final int mServerId;
     private final String mUserId;
@@ -58,7 +58,7 @@ public class Photo extends Model {
         return true;
     }
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
@@ -99,7 +99,7 @@ public class Photo extends Model {
     @JsonPOJOBuilder(withPrefix = "set")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private int mId;
+        private long mId;
         private int mFarmId;
         private int mServerId;
         private String mUserId;
@@ -109,7 +109,7 @@ public class Photo extends Model {
         public Builder() {
         }
 
-        public Builder setId(int id) {
+        public Builder setId(long id) {
             mId = id;
             return this;
         }

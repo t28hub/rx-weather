@@ -2,7 +2,6 @@ package com.t28.rxweather.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.t28.rxweather.util.CollectionUtils;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@JsonRootName("photos")
 @JsonDeserialize(builder = Photos.Builder.class)
 public class Photos extends Model {
     private final int mPage;
@@ -90,6 +88,7 @@ public class Photos extends Model {
         private int mPageCount;
         private int mPerPage;
         private int mTotal;
+        private String mStat;
         private List<Photo> mPhotos;
 
         public Builder() {
@@ -114,6 +113,11 @@ public class Photos extends Model {
 
         public Builder setTotal(int total) {
             mTotal = total;
+            return this;
+        }
+
+        public Builder setStat(String stat) {
+            mStat = stat;
             return this;
         }
 

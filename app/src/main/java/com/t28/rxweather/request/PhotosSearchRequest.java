@@ -2,6 +2,7 @@ package com.t28.rxweather.request;
 
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -45,8 +46,11 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
 
         final Photos photos;
         try {
+            final String debug = new String(response.data);
+            Log.d("TAG", debug);
             photos = new PhotosSearchParser().parse(response.data);
         } catch (ParseException e) {
+            e.printStackTrace();
             return Response.error(new VolleyError(e));
         }
         return Response.success(photos, null);
@@ -89,6 +93,8 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
 
         final String noJsonCallback = String.valueOf(BooleanUtils.toInt(builder.mNoJsonCallback));
         urlBuilder.appendQueryParameter(KEY_NO_JSON_CALLBACK, noJsonCallback);
+
+        urlBuilder.appendQueryParameter("per_page", "2");
         return urlBuilder.build().toString();
     }
 
