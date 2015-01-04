@@ -7,10 +7,8 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.t28.rxweather.model.Photos;
-import com.t28.rxweather.model.Weather;
 import com.t28.rxweather.parser.ParseException;
 import com.t28.rxweather.parser.PhotosSearchParser;
-import com.t28.rxweather.parser.WeatherParser;
 import com.t28.rxweather.util.CollectionUtils;
 import com.t28.rxweather.volley.ListenableRequest;
 
@@ -95,6 +93,7 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
         public static final String TAG_MODE_ALL = "all";
         public static final String RADIUS_UNITS_ML = "ml";
         public static final String RADIUS_UNITS_KM = "km";
+        public static final String FORMAT_JSON = "json";
 
         public static final float NO_LAT = Float.NaN;
         public static final float NO_LON = Float.NaN;
@@ -141,6 +140,11 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
 
         public Builder setRadiusUnit(String units) {
             mRadiusUnits = units;
+            return this;
+        }
+
+        public Builder setFormat(String format) {
+            mFormat = format;
             return this;
         }
 
