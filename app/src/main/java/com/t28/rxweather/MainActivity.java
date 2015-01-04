@@ -12,12 +12,13 @@ import com.android.volley.RequestQueue;
 import com.t28.rxweather.model.Coordinate;
 import com.t28.rxweather.model.Forecast;
 import com.t28.rxweather.model.Weather;
-import com.t28.rxweather.request.WeatherRequest;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 import com.t28.rxweather.volley.RxSupport;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends ActionBarActivity {
@@ -34,8 +35,19 @@ public class MainActivity extends ActionBarActivity {
 
         final RequestQueue queue = RequestQueueRetriever.retrieve(this);
         final RxSupport support = new RxSupport(queue);
-        Weather.findByCityName(support, "Tokyo")
-                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+
+        final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        final Observable<Coordinate> coordinateObservable = Coordinate.find(manager)
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR));
+
+        coordinateObservable
+                .flatMap(new Func1<Coordinate, Observable<Weather>>() {
+                    @Override
+                    public Observable<Weather> call(Coordinate coordinate) {
+                        return Weather.findByCoordinate(support, coordinate);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Weather>() {
                     @Override
                     public void onCompleted() {
@@ -54,8 +66,14 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
 
-        Forecast.findByName(support, "Tokyo")
-                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+        coordinateObservable
+                .flatMap(new Func1<Coordinate, Observable<Forecast>>() {
+                    @Override
+                    public Observable<Forecast> call(Coordinate coordinate) {
+                        return Forecast.findByCoordinate(support, coordinate);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Forecast>() {
                     @Override
                     public void onCompleted() {
@@ -69,28 +87,6 @@ public class MainActivity extends ActionBarActivity {
 
                     @Override
                     public void onNext(Forecast result) {
-                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
-                        Log.d("TAG", "onNext:" + result);
-                    }
-                });
-
-        final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Coordinate.find(manager)
-                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Coordinate>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable cause) {
-                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
-                        Log.d("TAG", "onError:" + cause);
-                    }
-
-                    @Override
-                    public void onNext(Coordinate result) {
                         Log.d("TAG", "Thread:" + Thread.currentThread().getName());
                         Log.d("TAG", "onNext:" + result);
                     }

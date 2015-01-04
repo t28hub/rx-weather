@@ -53,6 +53,14 @@ public class Forecast extends Model {
         return support.createObservableRequest(request);
     }
 
+    public static Observable<Forecast> findByCoordinate(RxSupport support, Coordinate coordinate) {
+        final ForecastRequest request = new ForecastRequest.Builder("")
+                .setLat(coordinate.getLat())
+                .setLon(coordinate.getLon())
+                .build();
+        return support.createObservableRequest(request);
+    }
+
     @JsonPOJOBuilder(withPrefix = "set")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
