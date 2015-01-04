@@ -1,4 +1,4 @@
-package com.t28.rxweather.parser;
+package com.t28.rxweather.api.parser;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.t28.rxweather.data.model.Photos;

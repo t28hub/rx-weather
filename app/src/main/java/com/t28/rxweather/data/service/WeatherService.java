@@ -4,8 +4,8 @@ import com.android.volley.RequestQueue;
 import com.t28.rxweather.data.model.Coordinate;
 import com.t28.rxweather.data.model.Forecast;
 import com.t28.rxweather.data.model.Weather;
-import com.t28.rxweather.request.ForecastRequest;
-import com.t28.rxweather.request.WeatherRequest;
+import com.t28.rxweather.api.request.ForecastRequest;
+import com.t28.rxweather.api.request.WeatherRequest;
 import com.t28.rxweather.volley.RxSupport;
 
 import rx.Observable;

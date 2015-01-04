@@ -1,4 +1,4 @@
-package com.t28.rxweather.request;
+package com.t28.rxweather.api.request;
 
 import android.net.Uri;
 import android.text.TextUtils;
@@ -8,8 +8,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.t28.rxweather.data.model.City;
 import com.t28.rxweather.data.model.Weather;
-import com.t28.rxweather.parser.ParseException;
-import com.t28.rxweather.parser.WeatherParser;
+import com.t28.rxweather.api.parser.ParseException;
+import com.t28.rxweather.api.parser.WeatherParser;
 import com.t28.rxweather.volley.ListenableRequest;
 
 import org.apache.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.t28.rxweather.parser;
+package com.t28.rxweather.api.parser;
 
 public class ParseException extends Exception {
     public ParseException(String message) {
