@@ -22,11 +22,9 @@ public class Weather implements Model {
     private final City mCity;
 
     private Weather(Builder builder) {
+        mAttribute = builder.mAttribute;
         mSunriseTime = builder.mSunriseTime;
         mSunsetTime = builder.mSunsetTime;
-
-        mAttribute = builder.mAttribute;
-
         mCity = new City.Builder()
                 .setId(builder.mCityId)
                 .setName(builder.mCityName)
@@ -104,8 +102,8 @@ public class Weather implements Model {
         private String mCityName;
         private String mCountryCode;
 
-        private long mSunriseTime = NO_TIME;
-        private long mSunsetTime = NO_TIME;
+        private long mSunriseTime;
+        private long mSunsetTime;
 
         private Coordinate mCoordinate;
         private MainAttribute mAttribute;
