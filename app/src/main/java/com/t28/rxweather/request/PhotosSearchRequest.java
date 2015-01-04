@@ -17,6 +17,9 @@ import org.apache.http.HttpStatus;
 
 import java.util.List;
 
+/**
+ * {@see https://www.flickr.com/services/api/flickr.photos.search.html}
+ */
 public class PhotosSearchRequest extends ListenableRequest<Photos> {
     private static final String KEY_METHOD = "method";
     private static final String KEY_API_KEY = "api_key";
