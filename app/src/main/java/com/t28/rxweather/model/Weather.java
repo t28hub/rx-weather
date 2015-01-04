@@ -1,7 +1,6 @@
 package com.t28.rxweather.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -22,7 +21,6 @@ public class Weather implements Model {
 
     private final MainAttribute mAttribute;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private final City mCity;
 
     private Weather(Builder builder) {
@@ -31,17 +29,12 @@ public class Weather implements Model {
 
         mAttribute = builder.mAttribute;
 
-        final City city = new City.Builder()
+        mCity = new City.Builder()
                 .setId(builder.mCityId)
                 .setName(builder.mCityName)
                 .setCountryCode(builder.mCountryCode)
                 .setCoordinate(builder.mCoordinate)
                 .build();
-        if (city.isEmpty()) {
-            mCity = null;
-        } else {
-            mCity = city;
-        }
     }
 
     @Override
@@ -54,10 +47,14 @@ public class Weather implements Model {
             return false;
         }
 
-        if (mCity == null) {
-            return false;
+        if (mCity.isEmpty()) {
+            return true;
         }
         return mCity.isValid();
+    }
+
+    public boolean hasCity() {
+        return mCity.isEmpty();
     }
 
     public long getSunriseTime() {
