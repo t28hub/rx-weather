@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 public class Photo extends Model {
     private static final String FORMAT_IMAGE_URL = "https://farm%d.staticflickr.com/%d/%d_%s_%s.jpg";
+    private static final String FORMAT_PHOTO_URL = "https://www.flickr.com/photos/%s/%d";
 
     private final int mId;
     private final int mFarmId;
@@ -68,6 +69,13 @@ public class Photo extends Model {
     public Uri toImageUri(@NonNull PhotoSize size) {
         final String urlString = String.format(
                 FORMAT_IMAGE_URL, mFarmId, mServerId, mId, mSecret, size.toSuffix()
+        );
+        return Uri.parse(urlString);
+    }
+
+    public Uri toPhotoUri() {
+        final String urlString = String.format(
+                FORMAT_PHOTO_URL, mUserId, mId
         );
         return Uri.parse(urlString);
     }
