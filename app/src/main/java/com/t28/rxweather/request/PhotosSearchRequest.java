@@ -99,7 +99,6 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
         final String noJsonCallback = String.valueOf(BooleanUtils.toInt(builder.mNoJsonCallback));
         urlBuilder.appendQueryParameter(KEY_NO_JSON_CALLBACK, noJsonCallback);
 
-        urlBuilder.appendQueryParameter("per_page", "2");
         return urlBuilder.build().toString();
     }
 
