@@ -55,6 +55,6 @@ public class CollectionUtils {
         if (value == null) {
             return defaultValue;
         }
-        return String.valueOf(value);
+        return value.toString();
     }
 }
