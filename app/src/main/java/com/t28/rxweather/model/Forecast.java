@@ -2,6 +2,8 @@ package com.t28.rxweather.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.t28.rxweather.request.ForecastRequest;
@@ -25,6 +27,21 @@ public class Forecast implements Model {
             mWeathers = Collections.emptyList();
         } else {
             mWeathers = new ArrayList<>(builder.mWeathers);
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(Forecast.class.getSimpleName());
+
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonString = mapper.writeValueAsString(this);
+            builder.append(jsonString);
+            return builder.toString();
+        } catch (JsonProcessingException e) {
+            return super.toString();
         }
     }
 
