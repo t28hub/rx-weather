@@ -130,8 +130,8 @@ public class Weather implements Model {
 
         @JsonProperty("sys")
         public Builder setSystem(Map<String, Object> systems) {
-            final Object country = CollectionUtils.getValue(systems, PROPERTY_COUNTRY_CODE, "");
-            mCountryCode = country.toString();
+            final Object code = CollectionUtils.getValue(systems, PROPERTY_COUNTRY_CODE, City.NO_CODE);
+            mCountryCode = code.toString();
 
             final Object sunrise = CollectionUtils.getValue(systems, PROPERTY_SUNRISE, NO_TIME);
             mSunriseTime = Long.valueOf(sunrise.toString());
