@@ -1,14 +1,10 @@
 package com.t28.rxweather.data.model;
 
-import android.location.Location;
-import android.location.LocationListener;
-import android.os.Bundle;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-
-import rx.Subscriber;
 
 @JsonDeserialize(builder = Coordinate.Builder.class)
 public class Coordinate implements Model {
@@ -21,6 +17,22 @@ public class Coordinate implements Model {
     private Coordinate(Builder builder) {
         mLat = builder.mLat;
         mLon = builder.mLon;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName());
+
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonString = mapper.writeValueAsString(this);
+            builder.append(jsonString);
+        } catch (JsonProcessingException e) {
+            builder.append(hashCode());
+        }
+
+        return builder.toString();
     }
 
     @Override
@@ -66,6 +78,4 @@ public class Coordinate implements Model {
             return new Coordinate(this);
         }
     }
-
-
 }
