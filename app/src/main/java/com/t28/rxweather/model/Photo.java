@@ -4,6 +4,12 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = Photo.Builder.class)
 public class Photo extends Model {
     private static final String FORMAT_IMAGE_URL = "https://farm%d.staticflickr.com/%d/%d_%s_%s.jpg";
     private static final String FORMAT_PHOTO_URL = "https://www.flickr.com/photos/%s/%d";
@@ -80,6 +86,8 @@ public class Photo extends Model {
         return Uri.parse(urlString);
     }
 
+    @JsonPOJOBuilder(withPrefix = "set")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private int mId;
         private int mFarmId;
@@ -95,16 +103,19 @@ public class Photo extends Model {
             return this;
         }
 
+        @JsonProperty("farm")
         public Builder setFarmId(int id) {
             mFarmId = id;
             return this;
         }
 
+        @JsonProperty("server")
         public Builder setServerId(int id) {
             mServerId = id;
             return this;
         }
 
+        @JsonProperty("owner")
         public Builder setUserId(String id) {
             mUserId = id;
             return this;
