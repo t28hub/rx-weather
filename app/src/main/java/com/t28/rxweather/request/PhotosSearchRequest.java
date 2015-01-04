@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.t28.rxweather.model.Photos;
+import com.t28.rxweather.data.model.Photos;
 import com.t28.rxweather.parser.ParseException;
 import com.t28.rxweather.parser.PhotosSearchParser;
 import com.t28.rxweather.util.BooleanUtils;

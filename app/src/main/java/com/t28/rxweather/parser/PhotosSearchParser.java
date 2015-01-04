@@ -1,7 +1,7 @@
 package com.t28.rxweather.parser;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.t28.rxweather.model.Photos;
+import com.t28.rxweather.data.model.Photos;
 
 import java.io.IOException;
 

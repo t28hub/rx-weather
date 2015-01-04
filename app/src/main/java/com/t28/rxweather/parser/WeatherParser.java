@@ -1,6 +1,6 @@
 package com.t28.rxweather.parser;
 
-import com.t28.rxweather.model.Weather;
+import com.t28.rxweather.data.model.Weather;
 
 import java.io.IOException;
 

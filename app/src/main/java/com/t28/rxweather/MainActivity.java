@@ -9,13 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
-import com.t28.rxweather.model.Coordinate;
-import com.t28.rxweather.model.FlickerService;
-import com.t28.rxweather.model.Forecast;
-import com.t28.rxweather.model.Photo;
-import com.t28.rxweather.model.PhotoSize;
-import com.t28.rxweather.model.Photos;
-import com.t28.rxweather.model.Weather;
+import com.t28.rxweather.data.model.Coordinate;
+import com.t28.rxweather.data.model.FlickerService;
+import com.t28.rxweather.data.model.Forecast;
+import com.t28.rxweather.data.model.Photo;
+import com.t28.rxweather.data.model.PhotoSize;
+import com.t28.rxweather.data.model.Photos;
+import com.t28.rxweather.data.model.Weather;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 import com.t28.rxweather.volley.RxSupport;
 
