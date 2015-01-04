@@ -1,8 +1,12 @@
 package com.t28.rxweather.model;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 public class Photo extends Model {
+    private static final String FORMAT_IMAGE_URL = "https://farm%d.staticflickr.com/%d/%d_%s_%s.jpg";
+
     private final int mId;
     private final int mFarmId;
     private final int mServerId;
@@ -59,6 +63,13 @@ public class Photo extends Model {
 
     public String getSecret() {
         return mSecret;
+    }
+
+    public Uri toImageUri(@NonNull PhotoSize size) {
+        final String urlString = String.format(
+                FORMAT_IMAGE_URL, mFarmId, mServerId, mId, mSecret, size.toSuffix()
+        );
+        return Uri.parse(urlString);
     }
 
     public static class Builder {
