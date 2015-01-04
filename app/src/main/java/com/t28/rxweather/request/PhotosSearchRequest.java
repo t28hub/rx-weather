@@ -49,6 +49,10 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
         } catch (ParseException e) {
             return Response.error(new VolleyError(e));
         }
+
+        if (photos == null || !photos.isValid()) {
+            return Response.error(new VolleyError("Parsed result is not valid"));
+        }
         return Response.success(photos, null);
     }
 
