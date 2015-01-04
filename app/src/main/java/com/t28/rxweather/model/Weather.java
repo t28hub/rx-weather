@@ -118,14 +118,9 @@ public class Weather extends Model {
     @JsonPOJOBuilder(withPrefix = "set")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private static final String PROPERTY_CITY_ID = "id";
-        private static final String PROPERTY_CITY_NAME = "name";
         private static final String PROPERTY_COUNTRY_CODE = "country";
-        private static final String PROPERTY_COORDINATE = "coord";
-        private static final String PROPERTY_MAIN = "main";
         private static final String PROPERTY_SUNRISE = "sunrise";
         private static final String PROPERTY_SUNSET = "sunset";
-        private static final String PROPERTY_SYSTEM = "sys";
 
         private int mCityId = City.NO_ID;
         private String mCityName;
@@ -140,13 +135,13 @@ public class Weather extends Model {
         public Builder() {
         }
 
-        @JsonProperty(PROPERTY_CITY_ID)
+        @JsonProperty("id")
         public Builder setCityId(int cityId) {
             mCityId = cityId;
             return this;
         }
 
-        @JsonProperty(PROPERTY_CITY_NAME)
+        @JsonProperty("name")
         public Builder setCityName(String cityName) {
             mCityName = cityName;
             return this;
@@ -157,7 +152,7 @@ public class Weather extends Model {
             return this;
         }
 
-        @JsonProperty(PROPERTY_SYSTEM)
+        @JsonProperty("sys")
         public Builder setSystem(Map<String, Object> systems) {
             final Object country = CollectionUtils.getValue(systems, PROPERTY_COUNTRY_CODE, "");
             mCountryCode = country.toString();
@@ -170,13 +165,13 @@ public class Weather extends Model {
             return this;
         }
 
-        @JsonProperty(PROPERTY_COORDINATE)
+        @JsonProperty("coord")
         public Builder setCoordinate(Coordinate coordinate) {
             mCoordinate = coordinate;
             return this;
         }
 
-        @JsonProperty(PROPERTY_MAIN)
+        @JsonProperty("main")
         public Builder setAttribute(MainAttribute attribute) {
             mAttribute = attribute;
             return this;
