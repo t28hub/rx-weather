@@ -19,6 +19,7 @@ public class Photo extends Model {
     private final int mServerId;
     private final String mUserId;
     private final String mSecret;
+    private final String mTitle;
 
     private Photo(Builder builder) {
         mId = builder.mId;
@@ -26,6 +27,7 @@ public class Photo extends Model {
         mServerId = builder.mServerId;
         mUserId = builder.mUserId;
         mSecret = builder.mSecret;
+        mTitle = builder.mTitle;
     }
 
     @Override
@@ -72,6 +74,10 @@ public class Photo extends Model {
         return mSecret;
     }
 
+    public String getTitle() {
+        return mTitle;
+    }
+
     public Uri toImageUri(@NonNull PhotoSize size) {
         final String urlString = String.format(
                 FORMAT_IMAGE_URL, mFarmId, mServerId, mId, mSecret, size.toSuffix()
@@ -94,6 +100,7 @@ public class Photo extends Model {
         private int mServerId;
         private String mUserId;
         private String mSecret;
+        private String mTitle;
 
         public Builder() {
         }
@@ -123,6 +130,11 @@ public class Photo extends Model {
 
         public Builder setSecret(String secret) {
             mSecret = secret;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            mTitle = title;
             return this;
         }
 
