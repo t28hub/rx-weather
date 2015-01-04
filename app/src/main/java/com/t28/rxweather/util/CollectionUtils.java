@@ -41,4 +41,20 @@ public class CollectionUtils {
         }
         return value;
     }
+
+    public static long getValueAsLong(Map map, Object key, long defaultValue) {
+        final Object value = getValue(map, key, null);
+        if (value == null) {
+            return defaultValue;
+        }
+        return Long.valueOf(value.toString());
+    }
+
+    public static String getValueAsString(Map map, Object key, String defaultValue) {
+        final Object value = getValue(map, key, null);
+        if (value == null) {
+            return defaultValue;
+        }
+        return String.valueOf(value);
+    }
 }
