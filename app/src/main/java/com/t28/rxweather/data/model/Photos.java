@@ -2,6 +2,8 @@ package com.t28.rxweather.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.t28.rxweather.util.CollectionUtils;
@@ -28,6 +30,22 @@ public class Photos implements Model {
         } else {
             mPhotos = new ArrayList<>(builder.mPhotos);
         }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getClass().getSimpleName());
+
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonString = mapper.writeValueAsString(this);
+            builder.append(jsonString);
+        } catch (JsonProcessingException e) {
+            builder.append(hashCode());
+        }
+
+        return builder.toString();
     }
 
     @Override
