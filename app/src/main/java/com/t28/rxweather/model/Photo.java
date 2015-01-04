@@ -1,5 +1,7 @@
 package com.t28.rxweather.model;
 
+import android.text.TextUtils;
+
 public class Photo extends Model {
     private final int mId;
     private final int mFarmId;
@@ -17,7 +19,26 @@ public class Photo extends Model {
 
     @Override
     public boolean isValid() {
-        return false;
+        if (mId < 0) {
+            return false;
+        }
+
+        if (mFarmId < 0) {
+            return false;
+        }
+
+        if (mServerId < 0) {
+            return false;
+        }
+
+        if (TextUtils.isEmpty(mUserId)) {
+            return false;
+        }
+
+        if (TextUtils.isEmpty(mSecret)) {
+            return false;
+        }
+        return true;
     }
 
     public int getId() {
