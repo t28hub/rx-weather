@@ -33,7 +33,6 @@ public class Forecast extends Model {
         return true;
     }
 
-    @Override
     public boolean isEmpty() {
         return true;
     }

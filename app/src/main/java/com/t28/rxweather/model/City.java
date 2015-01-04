@@ -56,7 +56,7 @@ public class City extends Model {
             return false;
         }
 
-        if (mCoordinate != null && mCoordinate.isEmpty()) {
+        if (mCoordinate != null) {
             return false;
         }
         return true;
