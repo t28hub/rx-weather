@@ -47,7 +47,6 @@ public class PhotosSearchRequest extends ListenableRequest<Photos> {
         try {
             photos = new PhotosSearchParser().parse(response.data);
         } catch (ParseException e) {
-            e.printStackTrace();
             return Response.error(new VolleyError(e));
         }
         return Response.success(photos, null);
