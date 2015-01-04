@@ -44,6 +44,44 @@ public class MainActivity extends ActionBarActivity {
         final Observable<Coordinate> coordinateObservable = Coordinate.find(manager)
                 .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR));
 
+        final FlickerService flicker = new FlickerService(queue);
+        coordinateObservable
+                .flatMap(new Func1<Coordinate, Observable<Photos>>() {
+                    @Override
+                    public Observable<Photos> call(Coordinate coordinate) {
+                        return flicker.searchPhotos(coordinate);
+                    }
+                })
+                .compose(new Observable.Transformer<Photos, Photo>() {
+                    @Override
+                    public Observable<Photo> call(Observable<Photos> source) {
+                        return source.map(new Func1<Photos, Photo>() {
+                            @Override
+                            public Photo call(Photos photos) {
+                                return photos.getPhotos().get(0);
+                            }
+                        });
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Photo>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable cause) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onError:" + cause);
+                    }
+
+                    @Override
+                    public void onNext(Photo result) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onNext:" + result.toImageUri(PhotoSize.MEDIUM));
+                    }
+                });
+
         coordinateObservable
                 .flatMap(new Func1<Coordinate, Observable<Weather>>() {
                     @Override
@@ -93,43 +131,6 @@ public class MainActivity extends ActionBarActivity {
                     public void onNext(Forecast result) {
                         Log.d("TAG", "Thread:" + Thread.currentThread().getName());
                         Log.d("TAG", "onNext:" + result);
-                    }
-                });
-
-        final FlickerService flicker = new FlickerService(queue);
-        coordinateObservable
-                .flatMap(new Func1<Coordinate, Observable<Photos>>() {
-                    @Override
-                    public Observable<Photos> call(Coordinate coordinate) {
-                        return flicker.searchPhotos(coordinate);
-                    }
-                })
-                .compose(new Observable.Transformer<Photos, Photo>() {
-                    @Override
-                    public Observable<Photo> call(Observable<Photos> source) {
-                        return source.map(new Func1<Photos, Photo>() {
-                            @Override
-                            public Photo call(Photos photos) {
-                                return photos.getPhotos().get(0);
-                            }
-                        });
-                    }
-                })
-                .subscribe(new Subscriber<Photo>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable cause) {
-                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
-                        Log.d("TAG", "onError:" + cause);
-                    }
-
-                    @Override
-                    public void onNext(Photo result) {
-                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
-                        Log.d("TAG", "onNext:" + result.toImageUri(PhotoSize.LARGE));
                     }
                 });
     }
