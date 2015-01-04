@@ -34,16 +34,17 @@ public class Weather implements Model {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(Weather.class.getSimpleName());
+        builder.append(getClass().getSimpleName());
 
         try {
             final ObjectMapper mapper = new ObjectMapper();
             final String jsonString = mapper.writeValueAsString(this);
             builder.append(jsonString);
-            return builder.toString();
         } catch (JsonProcessingException e) {
-            return super.toString();
+            builder.append(hashCode());
         }
+
+        return builder.toString();
     }
 
     @Override
