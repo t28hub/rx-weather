@@ -45,8 +45,8 @@ public class Weather implements Model {
         return mCity.isValid();
     }
 
-    public boolean hasCity() {
-        return mCity.isEmpty();
+    public MainAttribute getAttribute() {
+        return mAttribute;
     }
 
     public long getSunriseTime() {
@@ -61,8 +61,8 @@ public class Weather implements Model {
         return mCity;
     }
 
-    public MainAttribute getAttribute() {
-        return mAttribute;
+    public boolean hasCity() {
+        return mCity.isEmpty();
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
