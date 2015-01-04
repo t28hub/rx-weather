@@ -6,15 +6,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.t28.rxweather.request.ForecastRequest;
 import com.t28.rxweather.util.CollectionUtils;
-import com.t28.rxweather.volley.RxSupport;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import rx.Observable;
 
 @JsonDeserialize(builder = Forecast.Builder.class)
 public class Forecast implements Model {
@@ -67,21 +63,6 @@ public class Forecast implements Model {
 
     public List<Weather> getWeathers() {
         return new ArrayList<>(mWeathers);
-    }
-
-    public static Observable<Forecast> findByName(RxSupport support, String name) {
-        final ForecastRequest request = new ForecastRequest.Builder("")
-                .setCityName(name)
-                .build();
-        return support.createObservableRequest(request);
-    }
-
-    public static Observable<Forecast> findByCoordinate(RxSupport support, Coordinate coordinate) {
-        final ForecastRequest request = new ForecastRequest.Builder("")
-                .setLat(coordinate.getLat())
-                .setLon(coordinate.getLon())
-                .build();
-        return support.createObservableRequest(request);
     }
 
     @JsonPOJOBuilder(withPrefix = "set")
