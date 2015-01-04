@@ -14,13 +14,11 @@ import rx.Subscriber;
 import rx.subscriptions.Subscriptions;
 
 public class RxSupport {
-    private final RequestQueue mQueue;
-
-    public RxSupport(@NonNull RequestQueue queue) {
-        mQueue = queue;
+    private RxSupport() {
     }
 
-    public <T> Observable<T> createObservableRequest(final ListenableRequest<T> request) {
+    public static <T> Observable<T> newRequest(@NonNull final RequestQueue queue,
+                                               @NonNull final ListenableRequest<T> request) {
         return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(Subscriber<? super T> subscriber) {
@@ -29,7 +27,7 @@ public class RxSupport {
 
                 request.setListener(future);
                 request.setErrorListener(future);
-                future.setRequest(mQueue.add(request));
+                future.setRequest(queue.add(request));
 
                 try {
                     final T result = future.get(request.getTimeoutMs(), TimeUnit.MILLISECONDS);
