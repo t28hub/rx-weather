@@ -10,7 +10,11 @@ import android.view.MenuItem;
 
 import com.android.volley.RequestQueue;
 import com.t28.rxweather.model.Coordinate;
+import com.t28.rxweather.model.FlickerService;
 import com.t28.rxweather.model.Forecast;
+import com.t28.rxweather.model.Photo;
+import com.t28.rxweather.model.PhotoSize;
+import com.t28.rxweather.model.Photos;
 import com.t28.rxweather.model.Weather;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 import com.t28.rxweather.volley.RxSupport;
@@ -89,6 +93,43 @@ public class MainActivity extends ActionBarActivity {
                     public void onNext(Forecast result) {
                         Log.d("TAG", "Thread:" + Thread.currentThread().getName());
                         Log.d("TAG", "onNext:" + result);
+                    }
+                });
+
+        final FlickerService flicker = new FlickerService(queue);
+        coordinateObservable
+                .flatMap(new Func1<Coordinate, Observable<Photos>>() {
+                    @Override
+                    public Observable<Photos> call(Coordinate coordinate) {
+                        return flicker.searchPhotos(coordinate);
+                    }
+                })
+                .compose(new Observable.Transformer<Photos, Photo>() {
+                    @Override
+                    public Observable<Photo> call(Observable<Photos> source) {
+                        return source.map(new Func1<Photos, Photo>() {
+                            @Override
+                            public Photo call(Photos photos) {
+                                return photos.getPhotos().get(0);
+                            }
+                        });
+                    }
+                })
+                .subscribe(new Subscriber<Photo>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable cause) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onError:" + cause);
+                    }
+
+                    @Override
+                    public void onNext(Photo result) {
+                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
+                        Log.d("TAG", "onNext:" + result.toImageUri(PhotoSize.LARGE));
                     }
                 });
     }
