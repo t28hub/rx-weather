@@ -13,14 +13,16 @@ import rx.Observable;
 public class FlickerService {
     private static final int DEFAULT_RADIUS = 20;
 
+    private final String mApiKey;
     private final RequestQueue mQueue;
 
-    public FlickerService(RequestQueue queue) {
+    public FlickerService(String apiKey, RequestQueue queue) {
+        mApiKey = apiKey;
         mQueue = queue;
     }
 
     public Observable<Photos> searchPhotos(Coordinate coordinate) {
-        final PhotosSearchRequest request = new PhotosSearchRequest.Builder("")
+        final PhotosSearchRequest request = new PhotosSearchRequest.Builder(mApiKey)
                 .setLat(coordinate.getLat())
                 .setLon(coordinate.getLon())
                 .setTags(Arrays.asList("weather", "climate"))

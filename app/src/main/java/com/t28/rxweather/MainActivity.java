@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
         final LocationService location = new LocationService(manager);
 
         final RequestQueue queue = RequestQueueRetriever.retrieve();
-        final FlickerService flicker = new FlickerService(queue);
+        final FlickerService flicker = new FlickerService("", queue);
         location.find()
                 .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .subscribe(new Action1<Coordinate>() {
@@ -122,7 +122,7 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
 
-        final WeatherService weather = new WeatherService(queue);
+        final WeatherService weather = new WeatherService("", queue);
         location.find()
                 .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .flatMap(new Func1<Coordinate, Observable<Forecast>>() {
