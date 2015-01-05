@@ -17,7 +17,6 @@ import com.t28.rxweather.rx.CoordinateEventBus;
 import com.t28.rxweather.view.WeatherView;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
 import rx.android.observables.AndroidObservable;
@@ -61,15 +60,7 @@ public class WeatherFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_weather, container, false);
-        ButterKnife.inject(this, view);
-        return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        ButterKnife.reset(this);
-        super.onDestroyView();
+        return inflater.inflate(R.layout.fragment_weather, container, false);
     }
 
     private void onSuccess(Weather result) {
