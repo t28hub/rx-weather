@@ -1,5 +1,8 @@
 package com.t28.rxweather.api.parser;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.t28.rxweather.data.model.Coordinate;
 import com.t28.rxweather.data.model.Weather;
 
 import java.io.IOException;
@@ -13,5 +16,33 @@ public class WeatherParser extends JacksonParser<Weather> {
         } catch (IOException e) {
             throw new ParseException(e);
         }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class WeatherHolder {
+        public int id;
+        public long dt;
+        public String name;
+        public Coordinate coord;
+        public MainHolder main;
+        public SysHolder sys;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class MainHolder {
+        public int humidity;
+        public float pressure;
+        public float temp;
+        @JsonProperty("temp_min")
+        public float minTemp;
+        @JsonProperty("temp_max")
+        public float maxTemp;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class SysHolder {
+        public String country;
+        public long sunrise;
+        public long sunset;
     }
 }
