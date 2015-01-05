@@ -82,22 +82,26 @@ public class WeatherFragment extends Fragment {
     }
 
     private void onSuccess(Weather result) {
-        final Activity activity = getActivity();
-        if (activity != null) {
-            Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
-
-            final MainAttribute attribute = result.getAttribute();
-            mTemperatureView.setText(String.valueOf(attribute.getTemperature()));
-            mMinTemperatureView.setText(String.valueOf(attribute.getMinTemperature()));
-            mMaxTemperatureView.setText(String.valueOf(attribute.getMaxTemperature()));
+        if (isDetached()) {
+            return;
         }
+
+        final Activity activity = getActivity();
+        Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
+
+        final MainAttribute attribute = result.getAttribute();
+        mTemperatureView.setText(String.valueOf(attribute.getTemperature()));
+        mMinTemperatureView.setText(String.valueOf(attribute.getMinTemperature()));
+        mMaxTemperatureView.setText(String.valueOf(attribute.getMaxTemperature()));
     }
 
     private void onFailure(Throwable cause) {
-        final Activity activity = getActivity();
-        if (activity != null) {
-            Toast.makeText(activity, cause.toString(), Toast.LENGTH_SHORT).show();
+        if (isDetached()) {
+            return;
         }
+
+        final Activity activity = getActivity();
+        Toast.makeText(activity, cause.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private Observable<Weather> createWeatherObservable() {
