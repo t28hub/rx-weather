@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,8 +70,13 @@ public class WeatherFragment extends Fragment {
             return;
         }
 
-        final Activity activity = getActivity();
-        Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
+        // TODO: for debugging
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        if (actionBar == null) {
+            throw new IllegalStateException("ActionBar does not exist");
+        }
+        actionBar.setTitle(result.getCity().getName());
+        actionBar.setSubtitle(result.getCity().getCountryCode());
 
         final View view = getView();
         if (!(view instanceof WeatherView)) {
