@@ -7,19 +7,17 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.t28.rxweather.R;
 import com.t28.rxweather.data.model.Coordinate;
-import com.t28.rxweather.data.model.MainAttribute;
 import com.t28.rxweather.data.model.Weather;
 import com.t28.rxweather.data.service.WeatherService;
 import com.t28.rxweather.rx.CoordinateEventBus;
+import com.t28.rxweather.view.WeatherView;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import rx.Observable;
 import rx.Observer;
 import rx.android.observables.AndroidObservable;
@@ -28,17 +26,6 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class WeatherFragment extends Fragment {
-    @InjectView(R.id.weather_temperature)
-    TextView mTemperatureView;
-    @InjectView(R.id.weather_min_temperature)
-    TextView mMinTemperatureView;
-    @InjectView(R.id.weather_max_temperature)
-    TextView mMaxTemperatureView;
-    @InjectView(R.id.weather_pressure)
-    TextView mPressureView;
-    @InjectView(R.id.weather_humidity)
-    TextView mHumidityView;
-
     private WeatherService mWeatherService;
 
     public WeatherFragment() {
@@ -93,13 +80,11 @@ public class WeatherFragment extends Fragment {
         final Activity activity = getActivity();
         Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
 
-        final MainAttribute attribute = result.getAttribute();
-        mTemperatureView.setText(String.valueOf((int) attribute.getTemperature()));
-        mMinTemperatureView.setText(String.valueOf((int) attribute.getMinTemperature()));
-        mMaxTemperatureView.setText(String.valueOf((int) attribute.getMaxTemperature()));
-
-        mPressureView.setText(String.valueOf((int) attribute.getPressure()));
-        mHumidityView.setText(String.valueOf((int) attribute.getHumidity()));
+        final View view = getView();
+        if (!(view instanceof WeatherView)) {
+            throw new IllegalStateException("getView() return invalid view:" + view);
+        }
+        ((WeatherView) getView()).update(result);
     }
 
     private void onFailure(Throwable cause) {

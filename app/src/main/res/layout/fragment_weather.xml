@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@android:color/holo_blue_bright"
-              android:gravity="center_vertical"
-              android:minHeight="160dp"
-              android:orientation="horizontal"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp"
+<com.t28.rxweather.view.WeatherView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/holo_blue_bright"
+    android:gravity="center_vertical"
+    android:minHeight="160dp"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     >
 
     <RelativeLayout
@@ -94,4 +95,4 @@
             />
     </RelativeLayout>
 
-</LinearLayout>
+</com.t28.rxweather.view.WeatherView>
