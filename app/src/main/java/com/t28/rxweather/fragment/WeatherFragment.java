@@ -2,10 +2,8 @@ package com.t28.rxweather.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,7 @@ import android.widget.Toast;
 
 import com.t28.rxweather.R;
 import com.t28.rxweather.data.model.Coordinate;
+import com.t28.rxweather.data.model.MainAttribute;
 import com.t28.rxweather.data.model.Weather;
 import com.t28.rxweather.data.service.WeatherService;
 import com.t28.rxweather.rx.CoordinateEventBus;
@@ -31,6 +30,10 @@ import rx.schedulers.Schedulers;
 public class WeatherFragment extends Fragment {
     @InjectView(R.id.weather_temperature)
     TextView mTemperatureView;
+    @InjectView(R.id.weather_min_temperature)
+    TextView mMinTemperatureView;
+    @InjectView(R.id.weather_max_temperature)
+    TextView mMaxTemperatureView;
 
     private WeatherService mWeatherService;
 
@@ -39,63 +42,12 @@ public class WeatherFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         mWeatherService = new WeatherService("", RequestQueueRetriever.retrieve());
-        observeWeather();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_weather, container, false);
-        ButterKnife.inject(this, view);
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        final String degree = Html.fromHtml("&deg;").toString();
-        final String temperature = new StringBuilder().append(10).append(degree).toString();
-        mTemperatureView.setText(temperature);
-    }
-
-    @Override
-    public void onDestroyView() {
-        ButterKnife.reset(this);
-        super.onDestroyView();
-    }
-
-    private void onSuccess(Weather result) {
-        final Activity activity = getActivity();
-        if (activity != null) {
-            Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void onFailure(Throwable cause) {
-        final Activity activity = getActivity();
-        if (activity != null) {
-            Toast.makeText(activity, cause.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void observeWeather() {
-        final Observable<Weather> observable = CoordinateEventBus.Retriever.retrieve()
-                .getEventStream()
-                .flatMap(new Func1<Coordinate, Observable<Weather>>() {
-                    @Override
-                    public Observable<Weather> call(Coordinate coordinate) {
-                        return mWeatherService.findWeather(coordinate);
-                    }
-                });
-
-        AndroidObservable.bindFragment(this, observable)
-                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+        AndroidObservable.bindFragment(this, createWeatherObservable())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Weather>() {
                     @Override
@@ -110,6 +62,51 @@ public class WeatherFragment extends Fragment {
                     @Override
                     public void onNext(Weather result) {
                         onSuccess(result);
+                    }
+                });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_weather, container, false);
+        ButterKnife.inject(this, view);
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        ButterKnife.reset(this);
+        super.onDestroyView();
+    }
+
+    private void onSuccess(Weather result) {
+        final Activity activity = getActivity();
+        if (activity != null) {
+            Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
+
+            final MainAttribute attribute = result.getAttribute();
+            mTemperatureView.setText(String.valueOf(attribute.getTemperature()));
+            mMinTemperatureView.setText(String.valueOf(attribute.getMinTemperature()));
+            mMaxTemperatureView.setText(String.valueOf(attribute.getMaxTemperature()));
+        }
+    }
+
+    private void onFailure(Throwable cause) {
+        final Activity activity = getActivity();
+        if (activity != null) {
+            Toast.makeText(activity, cause.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Observable<Weather> createWeatherObservable() {
+        return CoordinateEventBus.Retriever.retrieve()
+                .getEventStream()
+                .flatMap(new Func1<Coordinate, Observable<Weather>>() {
+                    @Override
+                    public Observable<Weather> call(Coordinate coordinate) {
+                        return mWeatherService.findWeather(coordinate);
                     }
                 });
     }
