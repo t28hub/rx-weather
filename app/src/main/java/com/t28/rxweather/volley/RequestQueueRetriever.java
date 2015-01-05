@@ -12,9 +12,15 @@ public class RequestQueueRetriever {
     private RequestQueueRetriever() {
     }
 
-    public static synchronized RequestQueue retrieve(@NonNull Context context) {
+    public static synchronized void initialize(@NonNull Context context) {
         if (sInstance == null) {
             sInstance = Volley.newRequestQueue(context.getApplicationContext());
+        }
+    }
+
+    public static RequestQueue retrieve() {
+        if (sInstance == null) {
+            throw new IllegalStateException("RequestQueue has not been initialized");
         }
         return sInstance;
     }
