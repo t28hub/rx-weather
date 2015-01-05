@@ -17,7 +17,6 @@ import com.t28.rxweather.data.model.Forecast;
 import com.t28.rxweather.data.model.Photo;
 import com.t28.rxweather.data.model.PhotoSize;
 import com.t28.rxweather.data.model.Photos;
-import com.t28.rxweather.data.model.Weather;
 import com.t28.rxweather.data.service.FlickerService;
 import com.t28.rxweather.data.service.LocationService;
 import com.t28.rxweather.data.service.WeatherService;
@@ -124,33 +123,6 @@ public class MainActivity extends ActionBarActivity {
                 });
 
         final WeatherService weather = new WeatherService(queue);
-        location.find()
-                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-                .flatMap(new Func1<Coordinate, Observable<Weather>>() {
-                    @Override
-                    public Observable<Weather> call(Coordinate coordinate) {
-                        return weather.findWeather(coordinate);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Weather>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable cause) {
-                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
-                        Log.d("TAG", "onError:" + cause);
-                    }
-
-                    @Override
-                    public void onNext(Weather result) {
-                        Log.d("TAG", "Thread:" + Thread.currentThread().getName());
-                        Log.d("TAG", "onNext:" + result);
-                    }
-                });
-
         location.find()
                 .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .flatMap(new Func1<Coordinate, Observable<Forecast>>() {
