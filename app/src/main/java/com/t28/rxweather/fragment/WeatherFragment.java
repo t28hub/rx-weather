@@ -17,7 +17,6 @@ import com.t28.rxweather.data.model.Coordinate;
 import com.t28.rxweather.data.model.Weather;
 import com.t28.rxweather.data.service.WeatherService;
 import com.t28.rxweather.rx.CoordinateEventBus;
-import com.t28.rxweather.rx.EventBus;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 
 import butterknife.ButterKnife;
@@ -43,33 +42,8 @@ public class WeatherFragment extends Fragment {
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
 
-        mWeatherService = new WeatherService(RequestQueueRetriever.retrieve());
-
-        final EventBus<Coordinate> coordinateEventBus = CoordinateEventBus.Retriever.retrieve();
-        AndroidObservable.bindFragment(this, coordinateEventBus.getEventStream())
-                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
-                .flatMap(new Func1<Coordinate, Observable<Weather>>() {
-                    @Override
-                    public Observable<Weather> call(Coordinate coordinate) {
-                        return mWeatherService.findWeather(coordinate);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Weather>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable cause) {
-                        Toast.makeText(activity, cause.toString(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(Weather result) {
-                        Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        mWeatherService = new WeatherService("", RequestQueueRetriever.retrieve());
+        observeWeather();
     }
 
     @Nullable
@@ -94,5 +68,49 @@ public class WeatherFragment extends Fragment {
     public void onDestroyView() {
         ButterKnife.reset(this);
         super.onDestroyView();
+    }
+
+    private void onSuccess(Weather result) {
+        final Activity activity = getActivity();
+        if (activity != null) {
+            Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void onFailure(Throwable cause) {
+        final Activity activity = getActivity();
+        if (activity != null) {
+            Toast.makeText(activity, cause.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void observeWeather() {
+        final Observable<Weather> observable = CoordinateEventBus.Retriever.retrieve()
+                .getEventStream()
+                .flatMap(new Func1<Coordinate, Observable<Weather>>() {
+                    @Override
+                    public Observable<Weather> call(Coordinate coordinate) {
+                        return mWeatherService.findWeather(coordinate);
+                    }
+                });
+
+        AndroidObservable.bindFragment(this, observable)
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Weather>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable cause) {
+                        onFailure(cause);
+                    }
+
+                    @Override
+                    public void onNext(Weather result) {
+                        onSuccess(result);
+                    }
+                });
     }
 }
