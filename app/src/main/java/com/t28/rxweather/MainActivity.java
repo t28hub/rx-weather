@@ -29,20 +29,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_navigation);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "click", Toast.LENGTH_SHORT).show();
-            }
-        });
-        toolbar.setTitle("Tokyo");
-        toolbar.setSubtitle("Japan");
-        toolbar.inflateMenu(R.menu.menu_main);
-
         mCoordinateEventBus = CoordinateEventBus.Retriever.retrieve();
+        setupActionBar();
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -76,5 +64,20 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupActionBar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_navigation);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "click", Toast.LENGTH_SHORT).show();
+            }
+        });
+        toolbar.setTitle("Tokyo");
+        toolbar.setSubtitle("Japan");
+        toolbar.inflateMenu(R.menu.menu_main);
     }
 }
