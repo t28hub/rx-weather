@@ -54,6 +54,7 @@ public class WeatherView extends LinearLayout {
                 WeatherText.toCelsiusString(attribute.getMaxTemperature(), true));
 
         mPressureView.setText(String.valueOf((int) attribute.getPressure()));
-        mHumidityView.setText(String.valueOf((int) attribute.getHumidity()));
+        mHumidityView.setText(
+                WeatherText.toHumidityString(attribute.getHumidity(), true));
     }
 }
