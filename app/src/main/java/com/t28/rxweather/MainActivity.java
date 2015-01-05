@@ -22,16 +22,20 @@ import com.t28.rxweather.data.service.FlickerService;
 import com.t28.rxweather.data.service.LocationService;
 import com.t28.rxweather.data.service.WeatherService;
 import com.t28.rxweather.fragment.WeatherFragment;
+import com.t28.rxweather.rx.CoordinateEventBus;
+import com.t28.rxweather.rx.EventBus;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends ActionBarActivity {
+    private EventBus<Coordinate> mCoordinateEventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class MainActivity extends ActionBarActivity {
         toolbar.setSubtitle("Japan");
         toolbar.inflateMenu(R.menu.menu_main);
 
+        mCoordinateEventBus = CoordinateEventBus.Retriever.retrieve();
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.main_weather, new WeatherFragment())
@@ -68,6 +74,15 @@ public class MainActivity extends ActionBarActivity {
 
         final RequestQueue queue = RequestQueueRetriever.retrieve();
         final FlickerService flicker = new FlickerService(queue);
+        location.find()
+                .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
+                .subscribe(new Action1<Coordinate>() {
+                    @Override
+                    public void call(Coordinate coordinate) {
+                        mCoordinateEventBus.publish(coordinate);
+                    }
+                });
+
         location.find()
                 .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
                 .flatMap(new Func1<Coordinate, Observable<Photos>>() {
