@@ -20,6 +20,7 @@ import com.t28.rxweather.data.model.Photos;
 import com.t28.rxweather.data.service.FlickerService;
 import com.t28.rxweather.data.service.LocationService;
 import com.t28.rxweather.data.service.WeatherService;
+import com.t28.rxweather.fragment.ForecastFragment;
 import com.t28.rxweather.fragment.WeatherFragment;
 import com.t28.rxweather.rx.CoordinateEventBus;
 import com.t28.rxweather.rx.EventBus;
@@ -60,6 +61,7 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.main_weather, new WeatherFragment())
+                    .add(R.id.main_forecast, new ForecastFragment())
                     .commit();
         }
     }
