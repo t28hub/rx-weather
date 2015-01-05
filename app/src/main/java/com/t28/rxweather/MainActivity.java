@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -22,6 +21,7 @@ import com.t28.rxweather.data.model.Weather;
 import com.t28.rxweather.data.service.FlickerService;
 import com.t28.rxweather.data.service.LocationService;
 import com.t28.rxweather.data.service.WeatherService;
+import com.t28.rxweather.fragment.WeatherFragment;
 import com.t28.rxweather.volley.RequestQueueRetriever;
 
 import butterknife.ButterKnife;
@@ -48,8 +48,15 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(view.getContext(), "click", Toast.LENGTH_SHORT).show();
             }
         });
-        toolbar.setTitle("Title");
-        toolbar.setSubtitle("Subtitle");
+        toolbar.setTitle("Tokyo");
+        toolbar.setSubtitle("Japan");
+        toolbar.inflateMenu(R.menu.menu_main);
+
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.main_weather, new WeatherFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -155,12 +162,6 @@ public class MainActivity extends ActionBarActivity {
                         Log.d("TAG", "onNext:" + result);
                     }
                 });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override

@@ -12,6 +12,12 @@
         android:gravity="center_vertical"
         />
 
+    <FrameLayout
+        android:id="@+id/main_weather"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        />
+
     <TextView
         android:gravity="center"
         android:layout_width="match_parent"
