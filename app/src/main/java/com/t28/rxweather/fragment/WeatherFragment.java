@@ -34,6 +34,10 @@ public class WeatherFragment extends Fragment {
     TextView mMinTemperatureView;
     @InjectView(R.id.weather_max_temperature)
     TextView mMaxTemperatureView;
+    @InjectView(R.id.weather_pressure)
+    TextView mPressureView;
+    @InjectView(R.id.weather_humidity)
+    TextView mHumidityView;
 
     private WeatherService mWeatherService;
 
@@ -90,9 +94,12 @@ public class WeatherFragment extends Fragment {
         Toast.makeText(activity, result.toString(), Toast.LENGTH_SHORT).show();
 
         final MainAttribute attribute = result.getAttribute();
-        mTemperatureView.setText(String.valueOf(attribute.getTemperature()));
-        mMinTemperatureView.setText(String.valueOf(attribute.getMinTemperature()));
-        mMaxTemperatureView.setText(String.valueOf(attribute.getMaxTemperature()));
+        mTemperatureView.setText(String.valueOf((int) attribute.getTemperature()));
+        mMinTemperatureView.setText(String.valueOf((int) attribute.getMinTemperature()));
+        mMaxTemperatureView.setText(String.valueOf((int) attribute.getMaxTemperature()));
+
+        mPressureView.setText(String.valueOf((int) attribute.getPressure()));
+        mHumidityView.setText(String.valueOf((int) attribute.getHumidity()));
     }
 
     private void onFailure(Throwable cause) {
