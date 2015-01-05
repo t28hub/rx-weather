@@ -45,23 +45,23 @@ public class MainAttribute implements Model {
         return true;
     }
 
-    public double getTemperature() {
+    public float getTemperature() {
         return mTemperature;
     }
 
-    public double getMinTemperature() {
+    public float getMinTemperature() {
         return mMinTemperature;
     }
 
-    public double getMaxTemperature() {
+    public float getMaxTemperature() {
         return mMaxTemperature;
     }
 
-    public double getHumidity() {
+    public float getHumidity() {
         return mHumidity;
     }
 
-    public double getPressure() {
+    public float getPressure() {
         return mPressure;
     }
 
