@@ -39,11 +39,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
 
-        final RequestQueue queue = RequestQueueRetriever.retrieve(this);
-
         final LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         final LocationService location = new LocationService(manager);
 
+        final RequestQueue queue = RequestQueueRetriever.retrieve();
         final FlickerService flicker = new FlickerService(queue);
         location.find()
                 .subscribeOn(Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR))
