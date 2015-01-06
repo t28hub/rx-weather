@@ -13,9 +13,9 @@ public class WeatherParser extends JacksonParser<Weather> {
 
     @Override
     public Weather parse(byte[] data) throws ParseException {
-        final WeatherHolder holder;
+        final ResponseHolder holder;
         try {
-            holder = getMapper().readValue(data, WeatherHolder.class);
+            holder = getMapper().readValue(data, ResponseHolder.class);
         } catch (IOException e) {
             throw new ParseException(e);
         }
@@ -41,7 +41,7 @@ public class WeatherParser extends JacksonParser<Weather> {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class WeatherHolder {
+    private static class ResponseHolder {
         public int id;
         public long dt;
         public String name;
