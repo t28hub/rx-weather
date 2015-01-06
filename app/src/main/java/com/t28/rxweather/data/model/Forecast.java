@@ -1,7 +1,6 @@
 package com.t28.rxweather.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -69,9 +68,10 @@ public class Forecast implements Model {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private City mCity;
-        private List<Weather> mWeathers;
+        private final List<Weather> mWeathers;
 
         public Builder() {
+            mWeathers = new ArrayList<>();
         }
 
         public Builder setCity(City city) {
@@ -79,9 +79,8 @@ public class Forecast implements Model {
             return this;
         }
 
-        @JsonProperty("list")
-        public Builder setWeathers(List<Weather> weathers) {
-            mWeathers = weathers;
+        public Builder addWeathers(Weather weather) {
+            mWeathers.add(weather);
             return this;
         }
 
