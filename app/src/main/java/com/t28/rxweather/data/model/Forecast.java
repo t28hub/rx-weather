@@ -1,17 +1,13 @@
 package com.t28.rxweather.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.t28.rxweather.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@JsonDeserialize(builder = Forecast.Builder.class)
 public class Forecast implements Model {
     private final City mCity;
     private final List<Weather> mWeathers;
@@ -64,8 +60,6 @@ public class Forecast implements Model {
         return new ArrayList<>(mWeathers);
     }
 
-    @JsonPOJOBuilder(withPrefix = "set")
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private City mCity;
         private final List<Weather> mWeathers;
