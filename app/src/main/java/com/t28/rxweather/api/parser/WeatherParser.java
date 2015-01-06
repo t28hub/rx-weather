@@ -1,19 +1,24 @@
 package com.t28.rxweather.api.parser;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.t28.rxweather.data.model.Coordinate;
 import com.t28.rxweather.data.model.Weather;
 
 import java.io.IOException;
+import java.util.List;
 
 public class WeatherParser extends JacksonParser<Weather> {
 
     @Override
     public Weather parse(byte[] body) throws ParseException {
         try {
+            Log.d("TAG", getMapper().writeValueAsString(getMapper().readValue(body, WeatherHolder.class)));
             return getMapper().readValue(body, Weather.class);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new ParseException(e);
         }
     }
@@ -26,6 +31,8 @@ public class WeatherParser extends JacksonParser<Weather> {
         public Coordinate coord;
         public MainHolder main;
         public SysHolder sys;
+        @JsonProperty("weather")
+        public List<Condition> conditions;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -44,5 +51,13 @@ public class WeatherParser extends JacksonParser<Weather> {
         public String country;
         public long sunrise;
         public long sunset;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class Condition {
+        public int id;
+        @JsonProperty("main")
+        public String text;
+        public String description;
     }
 }
