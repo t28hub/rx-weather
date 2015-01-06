@@ -30,7 +30,7 @@ public class ForecastParser extends JacksonParser<Forecast> {
         builder.setCity(city);
 
         for (WeatherHolder weatherHolder : holder.list) {
-            builder.addWeathers(new Weather.Builder()
+            builder.addWeather(new Weather.Builder()
                     .setTemperature(weatherHolder.main.temp)
                     .setMinTemperature(weatherHolder.main.minTemp)
                     .setMaxTemperature(weatherHolder.main.maxTemp)

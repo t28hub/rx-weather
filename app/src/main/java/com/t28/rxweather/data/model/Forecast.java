@@ -79,7 +79,7 @@ public class Forecast implements Model {
             return this;
         }
 
-        public Builder addWeathers(Weather weather) {
+        public Builder addWeather(Weather weather) {
             mWeathers.add(weather);
             return this;
         }
