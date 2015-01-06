@@ -6,7 +6,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.t28.rxweather.R;
-import com.t28.rxweather.data.model.MainAttribute;
 import com.t28.rxweather.data.model.Weather;
 import com.t28.rxweather.util.WeatherText;
 
@@ -45,16 +44,15 @@ public class WeatherView extends LinearLayout {
     }
 
     public void update(Weather weather) {
-        final MainAttribute attribute = weather.getAttribute();
         mTemperatureView.setText(
-                WeatherText.toCelsiusString(attribute.getTemperature(), true));
+                WeatherText.toCelsiusString(weather.getTemperature(), true));
         mMinTemperatureView.setText(
-                WeatherText.toCelsiusString(attribute.getMinTemperature(), true));
+                WeatherText.toCelsiusString(weather.getMinTemperature(), true));
         mMaxTemperatureView.setText(
-                WeatherText.toCelsiusString(attribute.getMaxTemperature(), true));
+                WeatherText.toCelsiusString(weather.getMaxTemperature(), true));
 
-        mPressureView.setText(String.valueOf((int) attribute.getPressure()));
+        mPressureView.setText(String.valueOf((int) weather.getPressure()));
         mHumidityView.setText(
-                WeatherText.toHumidityString(attribute.getHumidity(), true));
+                WeatherText.toHumidityString(weather.getHumidity(), true));
     }
 }
