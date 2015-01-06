@@ -31,6 +31,7 @@ public class Forecast implements Model {
             final String jsonString = mapper.writeValueAsString(this);
             builder.append(jsonString);
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
             builder.append(hashCode());
         }
 

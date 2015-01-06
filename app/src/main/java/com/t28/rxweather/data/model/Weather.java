@@ -59,6 +59,9 @@ public class Weather implements Model {
             return false;
         }
 
+        if (mCity == null) {
+            return true;
+        }
         return mCity.isValid();
     }
 
