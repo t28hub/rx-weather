@@ -1,7 +1,5 @@
 package com.t28.rxweather.api.parser;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.t28.rxweather.data.model.Coordinate;
@@ -15,7 +13,7 @@ public class WeatherParser extends JacksonParser<Weather> {
     @Override
     public Weather parse(byte[] body) throws ParseException {
         try {
-            Log.d("TAG", getMapper().writeValueAsString(getMapper().readValue(body, WeatherHolder.class)));
+            final WeatherHolder holder = getMapper().readValue(body, WeatherHolder.class);
             return getMapper().readValue(body, Weather.class);
         } catch (IOException e) {
             e.printStackTrace();
