@@ -1,34 +1,40 @@
 package com.t28.rxweather.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.t28.rxweather.util.CollectionUtils;
 
-import java.util.Map;
-
-@JsonDeserialize(builder = Weather.Builder.class)
 public class Weather implements Model {
+    public static final float NO_TEMPERATURE = Float.NaN;
+    public static final float NO_HUMIDITY = Float.NaN;
+    public static final float NO_PRESSURE = Float.NaN;
     public static final long NO_TIME = 0;
 
-    private final MainAttribute mAttribute;
+    private final float mTemperature;
+    private final float mMinTemperature;
+    private final float mMaxTemperature;
+
+    private final float mHumidity;
+    private final float mPressure;
+
+    private final long mUpdateTime;
     private final long mSunriseTime;
     private final long mSunsetTime;
+
     private final City mCity;
 
     private Weather(Builder builder) {
-        mAttribute = builder.mAttribute;
+        mTemperature = builder.mTemperature;
+        mMinTemperature = builder.mMinTemperature;
+        mMaxTemperature = builder.mMaxTemperature;
+
+        mHumidity = builder.mHumidity;
+        mPressure = builder.mPressure;
+
+        mUpdateTime = builder.mUpdateTime;
         mSunriseTime = builder.mSunriseTime;
         mSunsetTime = builder.mSunsetTime;
-        mCity = new City.Builder()
-                .setId(builder.mCityId)
-                .setName(builder.mCityName)
-                .setCountryCode(builder.mCountryCode)
-                .setCoordinate(builder.mCoordinate)
-                .build();
+
+        mCity = builder.mCity;
     }
 
     @Override
@@ -53,18 +59,10 @@ public class Weather implements Model {
             return false;
         }
 
-        if (mAttribute == null || !mAttribute.isValid()) {
-            return false;
-        }
-
         if (mCity.isEmpty()) {
             return true;
         }
         return mCity.isValid();
-    }
-
-    public MainAttribute getAttribute() {
-        return mAttribute;
     }
 
     public long getSunriseTime() {
@@ -83,60 +81,65 @@ public class Weather implements Model {
         return mCity.isEmpty();
     }
 
-    @JsonPOJOBuilder(withPrefix = "set")
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private static final String KEY_COUNTRY_CODE = "country";
-        private static final String KEY_SUNRISE = "sunrise";
-        private static final String KEY_SUNSET = "sunset";
+        private float mTemperature = NO_TEMPERATURE;
+        private float mMinTemperature = NO_TEMPERATURE;
+        private float mMaxTemperature = NO_TEMPERATURE;
 
-        private int mCityId = City.NO_ID;
-        private String mCityName;
-        private String mCountryCode;
+        private float mHumidity = NO_HUMIDITY;
+        private float mPressure = NO_PRESSURE;
 
+        private long mUpdateTime;
         private long mSunriseTime;
         private long mSunsetTime;
 
-        private Coordinate mCoordinate;
-        private MainAttribute mAttribute;
+        private City mCity;
 
         public Builder() {
         }
 
-        @JsonProperty("id")
-        public Builder setCityId(int cityId) {
-            mCityId = cityId;
+        public Builder setTemperature(float temperature) {
+            mTemperature = temperature;
             return this;
         }
 
-        @JsonProperty("name")
-        public Builder setCityName(String cityName) {
-            mCityName = cityName;
+        public Builder setMinTemperature(float temperature) {
+            mMinTemperature = temperature;
             return this;
         }
 
-        public Builder setCountryCode(String code) {
-            mCountryCode = code;
+        public Builder setMaxTemperature(float temperature) {
+            mMaxTemperature = temperature;
             return this;
         }
 
-        @JsonProperty("sys")
-        public Builder setSystem(Map<String, Object> systems) {
-            mCountryCode = CollectionUtils.getValueAsString(systems, KEY_COUNTRY_CODE, null);
-            mSunriseTime = CollectionUtils.getValueAsLong(systems, KEY_SUNRISE, NO_TIME);
-            mSunsetTime = CollectionUtils.getValueAsLong(systems, KEY_SUNSET, NO_TIME);
+        public Builder setHumidity(float humidity) {
+            mHumidity = humidity;
             return this;
         }
 
-        @JsonProperty("coord")
-        public Builder setCoordinate(Coordinate coordinate) {
-            mCoordinate = coordinate;
+        public Builder setPressure(float pressure) {
+            mPressure = pressure;
             return this;
         }
 
-        @JsonProperty("main")
-        public Builder setAttribute(MainAttribute attribute) {
-            mAttribute = attribute;
+        public Builder setUpdateTime(long time) {
+            mUpdateTime = time;
+            return this;
+        }
+
+        public Builder setSunriseTime(long time) {
+            mSunriseTime = time;
+            return this;
+        }
+
+        public Builder setSunsetTime(long time) {
+            mSunsetTime = time;
+            return this;
+        }
+
+        public Builder setCity(City city) {
+            mCity = city;
             return this;
         }
 
