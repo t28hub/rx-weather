@@ -59,9 +59,6 @@ public class Weather implements Model {
             return false;
         }
 
-        if (mCity.isEmpty()) {
-            return true;
-        }
         return mCity.isValid();
     }
 
@@ -102,7 +99,7 @@ public class Weather implements Model {
     }
 
     public boolean hasCity() {
-        return mCity.isEmpty();
+        return mCity != null;
     }
 
     public static class Builder {
