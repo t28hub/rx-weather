@@ -7,7 +7,6 @@ import com.t28.rxweather.data.model.Coordinate;
 import com.t28.rxweather.data.model.Weather;
 
 import java.io.IOException;
-import java.util.List;
 
 public class WeatherParser extends JacksonParser<Weather> {
 
@@ -48,8 +47,6 @@ public class WeatherParser extends JacksonParser<Weather> {
         public Coordinate coord;
         public MainHolder main;
         public SysHolder sys;
-        @JsonProperty("weather")
-        public List<ConditionHolder> conditions;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -68,12 +65,5 @@ public class WeatherParser extends JacksonParser<Weather> {
         public String country;
         public long sunrise;
         public long sunset;
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class ConditionHolder {
-        public int id;
-        public String main;
-        public String description;
     }
 }
