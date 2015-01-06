@@ -30,7 +30,8 @@ public class WeatherParser extends JacksonParser<Weather> {
         public String name;
         public Coordinate coord;
         public MainHolder main;
-        public SysHolder sys;
+        @JsonProperty("sys")
+        public System system;
         @JsonProperty("weather")
         public List<Condition> conditions;
     }
@@ -47,7 +48,7 @@ public class WeatherParser extends JacksonParser<Weather> {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class SysHolder {
+    private static class System {
         public String country;
         public long sunrise;
         public long sunset;
