@@ -2,6 +2,7 @@ package com.t28.rxweather.api.parser;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.t28.rxweather.data.model.City;
 import com.t28.rxweather.data.model.Coordinate;
 import com.t28.rxweather.data.model.Weather;
 
@@ -12,13 +13,31 @@ public class WeatherParser extends JacksonParser<Weather> {
 
     @Override
     public Weather parse(byte[] body) throws ParseException {
+        final WeatherHolder holder;
         try {
-            final WeatherHolder holder = getMapper().readValue(body, WeatherHolder.class);
-            return getMapper().readValue(body, Weather.class);
+            holder = getMapper().readValue(body, WeatherHolder.class);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new ParseException(e);
         }
+
+        final City city = new City.Builder()
+                .setId(holder.id)
+                .setName(holder.name)
+                .setCountryCode(holder.sys.country)
+                .setCoordinate(holder.coord)
+                .build();
+
+        return new Weather.Builder()
+                .setCity(city)
+                .setTemperature(holder.main.temp)
+                .setMinTemperature(holder.main.minTemp)
+                .setMaxTemperature(holder.main.maxTemp)
+                .setHumidity(holder.main.humidity)
+                .setPressure(holder.main.pressure)
+                .setUpdateTime(holder.dt)
+                .setSunriseTime(holder.sys.sunrise)
+                .setSunsetTime(holder.sys.sunset)
+                .build();
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
