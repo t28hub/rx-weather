@@ -19,11 +19,16 @@ public class WeatherParser extends JacksonParser<Weather> {
             throw new ParseException(e);
         }
 
+        final Coordinate coordinate = new Coordinate.Builder()
+                .setLat(holder.coord.lat)
+                .setLon(holder.coord.lon)
+                .build();
+
         final City city = new City.Builder()
                 .setId(holder.id)
                 .setName(holder.name)
                 .setCountryCode(holder.sys.country)
-                .setCoordinate(holder.coord)
+                .setCoordinate(coordinate)
                 .build();
 
         return new Weather.Builder()
@@ -44,9 +49,15 @@ public class WeatherParser extends JacksonParser<Weather> {
         public int id;
         public long dt;
         public String name;
-        public Coordinate coord;
+        public CoordHolder coord;
         public MainHolder main;
         public SysHolder sys;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class CoordHolder {
+        public float lat;
+        public float lon;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
