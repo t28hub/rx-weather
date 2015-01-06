@@ -1,12 +1,8 @@
 package com.t28.rxweather.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-@JsonDeserialize(builder = Coordinate.Builder.class)
 public class Coordinate implements Model {
     public static final float NO_LAT = Float.NaN;
     public static final float NO_LON = Float.NaN;
@@ -55,8 +51,6 @@ public class Coordinate implements Model {
         return mLon;
     }
 
-    @JsonPOJOBuilder(withPrefix = "set")
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private float mLat = NO_LAT;
         private float mLon = NO_LON;
