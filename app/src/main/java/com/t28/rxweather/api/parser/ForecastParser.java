@@ -6,9 +6,9 @@ import java.io.IOException;
 
 public class ForecastParser extends JacksonParser<Forecast> {
     @Override
-    public Forecast parse(byte[] body) throws ParseException {
+    public Forecast parse(byte[] data) throws ParseException {
         try {
-            return getMapper().readValue(body, Forecast.class);
+            return getMapper().readValue(data, Forecast.class);
         } catch (IOException e) {
             throw new ParseException(e);
         }

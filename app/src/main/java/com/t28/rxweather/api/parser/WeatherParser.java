@@ -12,10 +12,10 @@ import java.util.List;
 public class WeatherParser extends JacksonParser<Weather> {
 
     @Override
-    public Weather parse(byte[] body) throws ParseException {
+    public Weather parse(byte[] data) throws ParseException {
         final WeatherHolder holder;
         try {
-            holder = getMapper().readValue(body, WeatherHolder.class);
+            holder = getMapper().readValue(data, WeatherHolder.class);
         } catch (IOException e) {
             throw new ParseException(e);
         }
