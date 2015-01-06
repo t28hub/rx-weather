@@ -65,6 +65,30 @@ public class Weather implements Model {
         return mCity.isValid();
     }
 
+    public float getTemperature() {
+        return mTemperature;
+    }
+
+    public float getMinTemperature() {
+        return mMinTemperature;
+    }
+
+    public float getMaxTemperature() {
+        return mMaxTemperature;
+    }
+
+    public float getHumidity() {
+        return mHumidity;
+    }
+
+    public float getPressure() {
+        return mPressure;
+    }
+
+    public long getUpdateTime() {
+        return mUpdateTime;
+    }
+
     public long getSunriseTime() {
         return mSunriseTime;
     }
