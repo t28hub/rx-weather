@@ -49,6 +49,10 @@ public class City implements Model {
         return mCountryCode;
     }
 
+    public Coordinate getCoordinate() {
+        return mCoordinate;
+    }
+
     public static class Builder {
         private int mId = NO_ID;
         private String mName;
