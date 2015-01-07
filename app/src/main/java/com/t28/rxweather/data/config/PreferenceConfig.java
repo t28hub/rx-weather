@@ -14,4 +14,12 @@ public class PreferenceConfig {
         }
         mPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
     }
+
+    public void remove(String key) {
+        mPreferences.edit().remove(key).apply();
+    }
+
+    public void clear() {
+        mPreferences.edit().clear().apply();
+    }
 }
