@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import java.util.Set;
+
 public class PreferenceConfig {
     private final SharedPreferences mPreferences;
 
@@ -17,6 +19,14 @@ public class PreferenceConfig {
 
     public boolean contains(String key) {
         return mPreferences.contains(key);
+    }
+
+    public void saveStringSet(String key, Set<String> values) {
+        mPreferences.edit().putStringSet(null, values).apply();
+    }
+
+    protected Set<String> loadStrings(String key, Set<String> defaultValue) {
+        return mPreferences.getStringSet(key, defaultValue);
     }
 
     public void remove(String key) {
