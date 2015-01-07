@@ -15,6 +15,10 @@ public class PreferenceConfig {
         mPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
     }
 
+    public boolean contains(String key) {
+        return mPreferences.contains(key);
+    }
+
     public void remove(String key) {
         mPreferences.edit().remove(key).apply();
     }
